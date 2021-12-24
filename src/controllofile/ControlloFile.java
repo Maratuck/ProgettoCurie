@@ -36,7 +36,7 @@ public class ControlloFile {
         
     }
     
-    public static void invia( String home, String username, String hostname, String ip, String data, String pathImg ) {
+    public static void invia( String home, String username, String hostname, String ip, String data) {
         String hostName = "192.168.1.220";
         int portNumber = 4444;
         try (
@@ -82,7 +82,6 @@ public class ControlloFile {
 
 
         String path1 = home + "\\Desktop\\prova.txt";
-        path1 = "/Users/mattia/Desktop";
 
         File file = new File( path1);
         long mod = file.lastModified();
@@ -94,7 +93,7 @@ public class ControlloFile {
                 //data = System.currentTimeMillis();
                 data = dataObject.getDate() + "/" + (dataObject.getMonth()+1) + "/" + (dataObject.getYear()+1900) + " " +dataObject.getHours() + ":"+ dataObject.getMinutes();
                 log( home, username, hostname, ip, data);
-                invia( home, username, hostname, ip, data, "ciao");
+                invia( home, username, hostname, ip, data);
                 System.out.println("modificato");
 
             } else {
