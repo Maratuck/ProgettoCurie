@@ -1,5 +1,6 @@
 package controllofile;
 
+import javax.swing.*;
 import java.net.*;
 import java.io.*;
 
@@ -22,7 +23,11 @@ public class Server {
                 while (inputLine != null) {
                     inputLine = in.readLine();
                     if (inputLine != null) {
-                        System.out.println(inputLine);
+                        //System.out.println(inputLine);
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                inputLine,
+                                "Cambio Sfondo",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                 }
             } catch (IOException e) {
