@@ -71,8 +71,9 @@ public class ControlloFile {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        
+
         String data;
+        
         cNI = 0;
         ckI = true;
         ckRI = false;
@@ -124,7 +125,6 @@ public class ControlloFile {
         // controlla messagi mancanti
         try {
             BufferedReader bw = new BufferedReader( new FileReader( home + PTcartella + "\\ma.log"));
-            System.out.println("prova");
             String linea;
             while ( (linea = bw.readLine()) != null) {
                 cNI ++;
