@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 
-public class ControlloFile {
+public class ControlloFile{
     
     static String PTcartella = "\\BAA"; 
     static String hostname;
@@ -52,7 +52,7 @@ public class ControlloFile {
         }
     }
     
-    public static boolean invia( String data) {
+    public static boolean invia( String home, String username, String hostname, String ip, String data) {
         String hostName = "127.0.0.1";  // local host
         int portNumber = 4444;
         try (
@@ -141,7 +141,8 @@ public class ControlloFile {
         File file = new File( path1);
         long mod = file.lastModified();
 
-
+        Thread tw;
+        
         while (true) {
             if ( mod!=file.lastModified() ) {
                 mod = file.lastModified();
@@ -149,16 +150,21 @@ public class ControlloFile {
                 Date dataObject = new Date();
                 data = dataObject.getDate() + "/" + (dataObject.getMonth()+1) + "/" + (dataObject.getYear()+1900) + " " +dataObject.getHours() + ":"+ dataObject.getMinutes();
                 log( data);
-                if ( !invia( data) ) {
+                /*
+                if ( !invia( home, username, hostname, ip, data) ) {
                     System.out.println("non inviato");
                     salvMan( data);       
                     cNI ++;
                 }
+                */
+                tw = new ivio( home, username, hostname, ip, data);
+                tw.start();
                 System.out.println("modificato");
             }
             Thread.sleep(2*1*1000); // aspetta 2 minuti
         }
         
     }
+
     
 }
