@@ -53,7 +53,7 @@ public class ControlloFile {
     }
     
     public static boolean invia( String data) {
-        String hostName = "192.168.1.220";
+        String hostName = "127.0.0.1";  // local host
         int portNumber = 4444;
         try (
                 Socket kkSocket = new Socket(hostName, portNumber);
