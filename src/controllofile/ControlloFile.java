@@ -62,8 +62,6 @@ public class ControlloFile {
         String ip;
         String username;
         String home;
-
-        Date dataObject = new Date();
         String data;
         
         //dati rete
@@ -91,6 +89,7 @@ public class ControlloFile {
             if ( mod!=file.lastModified() ) {
                 mod = file.lastModified();
                 //data = System.currentTimeMillis();
+                Date dataObject = new Date();
                 data = dataObject.getDate() + "/" + (dataObject.getMonth()+1) + "/" + (dataObject.getYear()+1900) + " " +dataObject.getHours() + ":"+ dataObject.getMinutes();
                 log( home, username, hostname, ip, data);
                 invia( home, username, hostname, ip, data);
