@@ -5,9 +5,24 @@ import java.net.*;
 import java.io.*;
 
 public class Server {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        int portNumber = 0;
 
-        int portNumber = 4444;
+
+        //caricamento config --PERCORSO DA SISTEMARE
+       BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "PERCORSO"));
+            reader.readLine();                                  //salta la prima riga
+            portNumber = Integer.parseInt(reader.readLine());
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
         while (true) {
             try (
                     ServerSocket serverSocket = new ServerSocket(portNumber);
