@@ -1,21 +1,16 @@
 package controllofile;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.file.Path;
 import java.util.Date;
 
 
-public class ControlloFile {
-    
-    static String PTcartella = "\\BAA"; 
+public class ControlloFile{
+
+    static String PTcartella = "\\BAA";
     static String hostname;
     static String ip;
     static String username;
@@ -23,11 +18,13 @@ public class ControlloFile {
     static int cNI;                  // contatore messagi non inviati
     static boolean ckRI;             // variabile per vederese se si sta provando a inviare
     static boolean ckI;              // variabile per vederese se si puo iniare
-    
+    static String hostName;          // ip server
+    static int portNumber;           // porta server
+
     public static void log( String data ){
-        
+
         File file = new File( home + PTcartella + "\\cb.log");
-        
+
         try {
             BufferedWriter br = new BufferedWriter( new FileWriter( file, true) );
             br.append( "\"" + home + "\"" + ";" + "\""+ username + "\"" + ";" + "\"" + hostname + "\"" + ";" + "\"" + ip + "\"" + ";" + "\"" + data + "\"" +"\n");
@@ -37,11 +34,11 @@ public class ControlloFile {
         } finally {
         }
     }
-    
+
     public static void salvMan( String data ){
-        
+
         File file = new File( home + PTcartella + "\\ma.log");
-        
+
         try {
             BufferedWriter br = new BufferedWriter( new FileWriter( file, true) );
             br.append( "\"" + home + "\"" + ";" + "\""+ username + "\"" + ";" + "\"" + hostname + "\"" + ";" + "\"" + ip + "\"" + ";" + "\"" + data + "\"" +"\n");
@@ -51,17 +48,18 @@ public class ControlloFile {
         } finally {
         }
     }
-    
-    public static boolean invia( String data) {
-        String hostName = "127.0.0.1";  // local host
-        int portNumber = 4444;
+
+    public static boolean invia( String home, String username, String hostname, String ip, String data) {
+        //String hostName = "127.0.0.1";  // local host
+        //hostName = "192.168.1.220";
+        //int portNumber = 4444;
         try (
                 Socket kkSocket = new Socket(hostName, portNumber);
                 PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
         ) {
             out.println(home + " "+ username+ " " +hostname+ " " + ip+ " " + data);
             return true;
-            
+
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
         } catch (IOException e) {
@@ -70,14 +68,14 @@ public class ControlloFile {
         return false;
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         String data;
-        
+
         cNI = 0;
         ckI = true;
         ckRI = false;
-        
+
         //dati rete
         try {
             InetAddress addr = InetAddress.getLocalHost();
@@ -87,11 +85,23 @@ public class ControlloFile {
             hostname = "errore";
             ip = "errore";
         }
-        
-        // dati pc 
+
+
+        //caricamento config --PERCORSO DA SISTEMARE
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("percorso"));
+            hostName = reader.readLine();
+            portNumber = Integer.parseInt(reader.readLine());
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // dati pc
         username = System.getProperty("user.name");
         home = System.getProperty("user.home");
-        
+
         // cartella controllo
         try {
             File cartella = new File( home + PTcartella);
@@ -100,8 +110,8 @@ public class ControlloFile {
             }
         } catch ( Exception e) {
             System.err.println("errore creazione cartella");
-        } 
-        
+        }
+
         // file log controllo
         try {
             File file = new File( home + PTcartella + "\\cb.log");
@@ -111,7 +121,7 @@ public class ControlloFile {
         } catch ( Exception e) {
             System.err.println("errore creazione file log");
         }
-        
+
         // file manc controllo
         try {
             File file = new File( home + PTcartella + "\\ma.log");
@@ -121,7 +131,7 @@ public class ControlloFile {
         } catch ( Exception e) {
             System.err.println("errore creazione file mac");
         }
-        
+
         // controlla messagi mancanti
         try {
             BufferedReader bw = new BufferedReader( new FileReader( home + PTcartella + "\\ma.log"));
@@ -133,14 +143,14 @@ public class ControlloFile {
         } catch ( Exception e) {
             System.err.println("errore lettura mancanti");
         }
-        
-            
-        //String path1 = home + "\\Desktop\\prova.txt";
+
+
         String path1 = home + "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
         File file = new File( path1);
         long mod = file.lastModified();
 
+        Thread tw;
 
         while (true) {
             if ( mod!=file.lastModified() ) {
@@ -149,16 +159,21 @@ public class ControlloFile {
                 Date dataObject = new Date();
                 data = dataObject.getDate() + "/" + (dataObject.getMonth()+1) + "/" + (dataObject.getYear()+1900) + " " +dataObject.getHours() + ":"+ dataObject.getMinutes();
                 log( data);
-                if ( !invia( data) ) {
+                /*
+                if ( !invia( home, username, hostname, ip, data) ) {
                     System.out.println("non inviato");
-                    salvMan( data);       
+                    salvMan( data);
                     cNI ++;
                 }
+                */
+                tw = new Invio( home, username, hostname, ip, data);
+                tw.start();
                 System.out.println("modificato");
             }
             Thread.sleep(2*1*1000); // aspetta 2 minuti
         }
-        
+
     }
-    
+
+
 }
