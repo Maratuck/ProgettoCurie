@@ -77,7 +77,7 @@ public class ControlloFile{
         ckRI = false;
         
         //menu
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per apple
         //Check the SystemTray is supported
         if (!SystemTray.isSupported()) {
             System.out.println("SystemTray is not supported");
