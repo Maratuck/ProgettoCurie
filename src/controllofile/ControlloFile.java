@@ -1,29 +1,30 @@
 package controllofile;
 
+import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.file.Path;
 import java.util.Date;
 
 
 public class ControlloFile{
 
     static String PTcartella = "\\BAA";
+    static String PTlog = "\\cb.log";
+    static String PTicona = "\\BAA";
+    static String PTconfig = "\\config";
+
     static String hostname;
     static String ip;
     static String username;
     static String home;
-    static int cNI;                  // contatore messagi non inviati
-    static boolean ckRI;             // variabile per vederese se si sta provando a inviare
-    static boolean ckI;              // variabile per vederese se si puo iniare
-    static String hostName;          // ip server
-    static int portNumber;           // porta server
+
+
+    static String serverIp = "127.0.0.1";          // ip server
+    static int portNumber = 4444;           // porta server
 
     public static void log( String data ){
 
-        File file = new File( home + PTcartella + "\\cb.log");
+        File file = new File( home + PTcartella + PTlog);
 
         try {
             BufferedWriter br = new BufferedWriter( new FileWriter( file, true) );
@@ -35,46 +36,9 @@ public class ControlloFile{
         }
     }
 
-    public static void salvMan( String data ){
-
-        File file = new File( home + PTcartella + "\\ma.log");
-
-        try {
-            BufferedWriter br = new BufferedWriter( new FileWriter( file, true) );
-            br.append( "\"" + home + "\"" + ";" + "\""+ username + "\"" + ";" + "\"" + hostname + "\"" + ";" + "\"" + ip + "\"" + ";" + "\"" + data + "\"" +"\n");
-            br.close();
-        } catch (Exception e) {
-            System.err.println("errore aggiunta file manc");
-        } finally {
-        }
-    }
-
-    public static boolean invia( String home, String username, String hostname, String ip, String data) {
-        //String hostName = "127.0.0.1";  // local host
-        //hostName = "192.168.1.220";
-        //int portNumber = 4444;
-        try (
-                Socket kkSocket = new Socket(hostName, portNumber);
-                PrintWriter out = new PrintWriter(kkSocket.getOutputStream(), true);
-        ) {
-            out.println(home + " "+ username+ " " +hostname+ " " + ip+ " " + data);
-            return true;
-
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to " + hostName);
-        }
-        return false;
-    }
-
     public static void main(String[] args) throws InterruptedException, IOException {
 
         String data;
-
-        cNI = 0;
-        ckI = true;
-        ckRI = false;
         
         //menu
         //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per apple
@@ -124,18 +88,6 @@ public class ControlloFile{
             ip = "errore";
         }
 
-
-        //caricamento config --PERCORSO DA SISTEMARE
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("percorso"));
-            hostName = reader.readLine();
-            portNumber = Integer.parseInt(reader.readLine());
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         // dati pc
         username = System.getProperty("user.name");
         home = System.getProperty("user.home");
@@ -152,36 +104,33 @@ public class ControlloFile{
 
         // file log controllo
         try {
-            File file = new File( home + PTcartella + "\\cb.log");
+            File file = new File( home + PTcartella + PTlog);
             if ( !file.exists() ) {
                 file.createNewFile();
             }
         } catch ( Exception e) {
             System.err.println("errore creazione file log");
         }
-
-        // file manc controllo
+        
+        // file log controllo
         try {
-            File file = new File( home + PTcartella + "\\ma.log");
+            File file = new File( home + PTcartella + PTconfig);
             if ( !file.exists() ) {
                 file.createNewFile();
             }
         } catch ( Exception e) {
-            System.err.println("errore creazione file mac");
+            System.err.println("errore creazione file config");
         }
 
-        // controlla messagi mancanti
+        //caricamento config --PERCORSO DA SISTEMARE
         try {
-            BufferedReader bw = new BufferedReader( new FileReader( home + PTcartella + "\\ma.log"));
-            String linea;
-            while ( (linea = bw.readLine()) != null) {
-                cNI ++;
-            }
-            bw.close();
-        } catch ( Exception e) {
-            System.err.println("errore lettura mancanti");
+            BufferedReader reader = new BufferedReader(new FileReader( home + PTcartella + PTconfig));
+            serverIp = reader.readLine();
+            portNumber = Integer.parseInt(reader.readLine());
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
 
         String path1 = home + "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
@@ -197,14 +146,7 @@ public class ControlloFile{
                 Date dataObject = new Date();
                 data = dataObject.getDate() + "/" + (dataObject.getMonth()+1) + "/" + (dataObject.getYear()+1900) + " " +dataObject.getHours() + ":"+ dataObject.getMinutes();
                 log( data);
-                /*
-                if ( !invia( home, username, hostname, ip, data) ) {
-                    System.out.println("non inviato");
-                    salvMan( data);
-                    cNI ++;
-                }
-                */
-                tw = new Invio( home, username, hostname, ip, data);
+                tw = new Invio( home, username, hostname, ip, data, serverIp, portNumber);
                 tw.start();
                 System.out.println("modificato");
             }
