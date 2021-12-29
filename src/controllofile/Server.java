@@ -8,6 +8,7 @@ public class Server {
     public static void main(String[] args) {
         int portNumber = 0;
         
+        //MENU
         //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per mac
         //Check the SystemTray is supported
         if (!SystemTray.isSupported()) {
