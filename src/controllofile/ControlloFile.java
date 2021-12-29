@@ -75,6 +75,44 @@ public class ControlloFile{
         cNI = 0;
         ckI = true;
         ckRI = false;
+        
+        //menu
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        //Check the SystemTray is supported
+        if (!SystemTray.isSupported()) {
+            System.out.println("SystemTray is not supported");
+            return;
+        }
+
+        final PopupMenu popup = new PopupMenu();
+        final TrayIcon trayIcon =
+                new TrayIcon(Toolkit.getDefaultToolkit().getImage("PERCORSO ICONA"));
+        final SystemTray tray = SystemTray.getSystemTray();
+
+        // Create a pop-up menu components
+        MenuItem infoItem = new MenuItem("Info");
+        MenuItem modifyItem = new MenuItem("Modifica");
+        MenuItem exitItem = new MenuItem("Exit");
+
+        //action
+        exitItem.addActionListener(new MenuEvent.exitEvent());
+        infoItem.addActionListener(new MenuEvent.infoEvent());
+        modifyItem.addActionListener(new MenuEvent.modifyEvent());
+
+
+        //Add components to pop-up menu
+        popup.add(infoItem);
+        popup.addSeparator();
+        popup.add(modifyItem);
+        popup.add(exitItem);
+
+        trayIcon.setPopupMenu(popup);
+
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.out.println("TrayIcon could not be added.");
+        }
 
         //dati rete
         try {
