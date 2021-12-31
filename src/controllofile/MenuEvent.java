@@ -4,9 +4,21 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.Inet4Address;
 
 public class MenuEvent {
+    
+    static String PTcartella;
+    static String PTconfig;
+    static String home;
+
+    public MenuEvent( String PTcartella, String PTconfig, String home) {
+        this.PTcartella = PTcartella;
+        this.PTconfig = PTconfig;
+        this.home = home;
+    }
+    
+    
+    
     static class exitEvent implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
@@ -20,17 +32,16 @@ public class MenuEvent {
             //caricamento config
             BufferedReader reader;
             try {
-                reader = new BufferedReader(new FileReader(
-                        "PERCORSO CONFIG"));
-                reader.readLine();
+                reader = new BufferedReader(new FileReader( home + PTcartella + PTconfig));
+                String serverIp =  reader.readLine();
                 int portNumber = Integer.parseInt(reader.readLine());
                 reader.close();
                 JOptionPane.showMessageDialog(new JFrame(),
-                        "Ip: "+ Inet4Address.getLocalHost().getHostAddress() +"\nPort: "+ portNumber,
+                        "Ip: "+ serverIp +"\nPort: "+ portNumber,
                         "Info",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException exception) {
-
+                System.err.println("errore configurazione config");
             }
         }
     }
@@ -44,7 +55,7 @@ public class MenuEvent {
                     "porta: ");
             BufferedWriter writer;
             try {
-                writer = new BufferedWriter(new FileWriter("PERCORSO CONFIG"));
+                writer = new BufferedWriter(new FileWriter( home + PTcartella + PTconfig));
                 writer.write(ip);
                 writer.newLine();
                 writer.write(port);

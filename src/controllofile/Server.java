@@ -1,24 +1,41 @@
 package controllofile;
 
+import static controllofile.ControlloFile.home;
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import javax.swing.*;
 import java.net.*;
 import java.io.*;
 
 public class Server {
-    public static void main(String[] args) {
-        int portNumber = 0;
-        
-        //MENU
-        //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per mac
+    
+    static String PTcartella = "\\BAA";
+    static String PTlog = "\\cb.log";
+    static String PTconfig = "\\config";
+    static String PTicona = "\\icona.png";
+    
+    static String home;
+    
+    static String serverIp = "127.0.0.1"; 
+    static int portNumber = 4444; 
+    
+    public static void creazioneMenu() {
+        //menu
+        //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per apple
         //Check the SystemTray is supported
         if (!SystemTray.isSupported()) {
-            System.out.println("SystemTray is not supported");
+            System.err.println("SystemTray is not supported");
             return;
         }
 
+        final Image immagine = Toolkit.getDefaultToolkit().getImage(home + PTcartella +PTicona);
         final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon =
-                new TrayIcon(Toolkit.getDefaultToolkit().getImage("PERCORSO ICONA"));
+        final TrayIcon trayIcon = new TrayIcon( immagine);
         final SystemTray tray = SystemTray.getSystemTray();
 
         // Create a pop-up menu components
@@ -43,20 +60,29 @@ public class Server {
         try {
             tray.add(trayIcon);
         } catch (AWTException e) {
-            System.out.println("TrayIcon could not be added.");
+            System.err.println("TrayIcon could not be added.");
         }
-
+    }
+    
+    public static void main(String[] args) {
+        
+        home = System.getProperty("user.home");
+        
+        
+        new MenuEvent( PTcartella, PTconfig, home);
+        creazioneMenu();
 
         //caricamento config --PERCORSO DA SISTEMARE
        BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(
-                    "PERCORSO"));
+            reader = new BufferedReader(new FileReader( home + PTcartella + PTconfig));
             reader.readLine();                                  //salta la prima riga
             portNumber = Integer.parseInt(reader.readLine());
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
+            serverIp = "127.0.0.1";
+            portNumber = 4444;
         }
 
 
@@ -84,9 +110,9 @@ public class Server {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("Exception caught when trying to listen on port "
+                System.err.println("Exception caught when trying to listen on port "
                         + portNumber + " or listening for a connection");
-                System.out.println(e.getMessage());
+                System.err.println(e.getMessage());
             }
         }
     }

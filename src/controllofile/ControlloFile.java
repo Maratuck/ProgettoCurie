@@ -10,8 +10,10 @@ public class ControlloFile{
 
     static String PTcartella = "\\BAA";
     static String PTlog = "\\cb.log";
-    static String PTicona = "\\BAA";
     static String PTconfig = "\\config";
+    static String PTicona = "\\icona.png";
+    
+    static String PTfilecontrollare = "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
     static String hostname;
     static String ip;
@@ -36,21 +38,18 @@ public class ControlloFile{
         }
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException {
-
-        String data;
-        
+    public static void creazioneMenu() {
         //menu
         //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per apple
         //Check the SystemTray is supported
         if (!SystemTray.isSupported()) {
-            System.out.println("SystemTray is not supported");
+            System.err.println("SystemTray is not supported");
             return;
         }
 
+        final Image immagine = Toolkit.getDefaultToolkit().getImage(home + PTcartella +PTicona);
         final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon =
-                new TrayIcon(Toolkit.getDefaultToolkit().getImage("PERCORSO ICONA"));
+        final TrayIcon trayIcon = new TrayIcon( immagine);
         final SystemTray tray = SystemTray.getSystemTray();
 
         // Create a pop-up menu components
@@ -75,8 +74,13 @@ public class ControlloFile{
         try {
             tray.add(trayIcon);
         } catch (AWTException e) {
-            System.out.println("TrayIcon could not be added.");
+            System.err.println("TrayIcon could not be added.");
         }
+    }
+    
+    public static void main(String[] args) throws InterruptedException, IOException {
+
+        String data;
 
         //dati rete
         try {
@@ -86,6 +90,7 @@ public class ControlloFile{
         } catch ( Exception e) {
             hostname = "errore";
             ip = "errore";
+            System.err.println("errore cercasi informazioni scheda di rete");        
         }
 
         // dati pc
@@ -117,6 +122,9 @@ public class ControlloFile{
             File file = new File( home + PTcartella + PTconfig);
             if ( !file.exists() ) {
                 file.createNewFile();
+                BufferedWriter bw = new BufferedWriter(new FileWriter( home + PTcartella + PTconfig));
+                bw.write( "127.0.0.1\n4444\n");
+                bw.close();
             }
         } catch ( Exception e) {
             System.err.println("errore creazione file config");
@@ -128,14 +136,21 @@ public class ControlloFile{
             serverIp = reader.readLine();
             portNumber = Integer.parseInt(reader.readLine());
             reader.close();
-        } catch (IOException e) {
+        } catch (EOFException e) {
             e.printStackTrace();
-        }
+        } catch (Exception e) {
+            serverIp = "127.0.0.1";
+            portNumber = 4444;
+            System.err.println("errore lettura porte falita");
+        } 
 
-        String path1 = home + "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
+        String path1 = home + PTfilecontrollare;
 
         File file = new File( path1);
         long mod = file.lastModified();
+        
+        new MenuEvent( PTcartella, PTconfig, home);
+        creazioneMenu();
 
         Thread tw;
 
