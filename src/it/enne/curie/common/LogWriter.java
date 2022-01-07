@@ -1,10 +1,12 @@
 package it.enne.curie.common;
 
+import java.awt.*;
 import java.io.*;
 
 public class LogWriter {
 
     private final File log;
+    private int rowCont;
 
     public LogWriter(String logPath) {
         log = new File(logPath);
@@ -22,21 +24,57 @@ public class LogWriter {
                 file.createNewFile();
             }
         } catch (IOException e) {
-            System.err.println("errore creazione file log");
+            System.err.println("errore creazione file");
         }
+
+        //conta rige file log
+        rowCont = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(log))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                rowCont++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void write(String line) {
-        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(log))), true)) {
-            writer.append(line);
-
-            //TODO: Check numero linee e in caso rimuovi le vecchie
-        } catch (Exception e) {
-            System.err.println("Errore scrittura nel log: " + line);
+        if (rowCont<20) {
+            try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(log, true))))) {
+                writer.append(line);
+                rowCont++;
+            } catch (Exception e) {
+                System.err.println("Errore scrittura nel log: " + line);
+            }
+        } else {
+            File temp = new File(log+"tmp");
+            try (
+                    PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp))));
+                    BufferedReader br = new BufferedReader(new FileReader(log));
+            ) {
+                String let;
+                br.readLine();
+                while ((let = br.readLine()) != null) {
+                    writer.write(let+"\n");
+                }
+                writer.write(line);
+                writer.close();
+                br.close();
+                log.delete();
+                temp.renameTo(log);
+            } catch (Exception e) {
+                System.err.println("Errore scrittura nel log: " + line);
+            }
         }
     }
 
     public void openFile() {
-        //TODO: Cercare come aprire il file di log con il programma predefinito di Windows
+        try {
+            Desktop.getDesktop().open(log);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
