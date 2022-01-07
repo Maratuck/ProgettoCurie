@@ -1,5 +1,6 @@
 package it.enne.curie.client;
 
+import it.enne.curie.common.CuriePaths;
 import it.enne.curie.common.LogWriter;
 import it.enne.curie.common.Message;
 
@@ -28,18 +29,24 @@ public class Client {
     public void start() {
         //TODO: @Ale config in common
 
-        // file log controllo
+        // controlla esistenza
         try {
+            // controllo cartella
+            File cartella = new File(CuriePaths.HOME + CuriePaths.FOLDER_NAME);
+            if (!cartella.exists() || !cartella.isFile()) {
+                cartella.mkdirs();
+            }
+            // controllo file config
             File file = new File(getConfigPath());
             if (!file.exists()) {
                 file.createNewFile();
-                PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getConfigPath()))), true);
+                PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getConfigPath(), true))));
                 writer.println(DEFAULT_SERVER_IP);
                 writer.println(DEFAULT_SERVER_PORT);
                 writer.close();
             }
         } catch (Exception e) {
-            System.err.println("errore creazione file config.txt");
+            System.err.println("errore creazione file");
         }
 
         String serverAddress = DEFAULT_SERVER_IP;
@@ -72,7 +79,8 @@ public class Client {
             }
 
             try {
-                Thread.sleep(TimeUnit.MINUTES.toMillis(2));
+                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+                //Thread.sleep(TimeUnit.MINUTES.toMillis(2));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

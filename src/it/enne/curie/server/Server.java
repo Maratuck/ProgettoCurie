@@ -4,10 +4,7 @@ import it.enne.curie.common.CuriePaths;
 import it.enne.curie.common.LogWriter;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -57,7 +54,25 @@ public class Server {
 
     //leggere la porta dal file
     private int getPortNumber() {
-        //TODO: Controllare se il file esiste e in caso crearlo
+        // controlla esistenza
+        try {
+            // controllo cartella
+            File cartella = new File(CuriePaths.HOME + CuriePaths.FOLDER_NAME);
+            if (!cartella.exists() || !cartella.isFile()) {
+                cartella.mkdirs();
+            }
+            // controllo file config
+            File file = new File(getConfigPath());
+            if (!file.exists()) {
+                file.createNewFile();
+                PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getConfigPath(), true))));
+                writer.println("127.0.0.1");
+                writer.println(4444);
+                writer.close();
+            }
+        } catch (Exception e) {
+            System.err.println("errore creazione file");
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(getConfigPath()))) {
             //salta la prima riga
