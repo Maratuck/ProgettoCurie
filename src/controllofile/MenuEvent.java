@@ -1,38 +1,78 @@
 package controllofile;
 
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
 public class MenuEvent {
-    
-    static String PTcartella;
-    static String PTconfig;
-    static String home;
 
-    public MenuEvent( String PTcartella, String PTconfig, String home) {
-        this.PTcartella = PTcartella;
+    String PTconfig;
+    String PTicona;
+
+    public MenuEvent( String PTconfig, String PTicona) {
         this.PTconfig = PTconfig;
-        this.home = home;
+        this.PTicona = PTicona;    
+        
+        if (!SystemTray.isSupported()) {
+            System.err.println("SystemTray is not supported");
+            return;
+        }
+
+        final Image immagine = Toolkit.getDefaultToolkit().getImage( PTicona);
+        final PopupMenu popup = new PopupMenu();
+        final TrayIcon trayIcon = new TrayIcon( immagine);
+        final SystemTray tray = SystemTray.getSystemTray();
+
+        // Create a pop-up menu components
+        MenuItem infoItem = new MenuItem("Info");
+        MenuItem modifyItem = new MenuItem("Modifica");
+        MenuItem exitItem = new MenuItem("Exit");
+
+        //action
+        exitItem.addActionListener(new MenuEvent.exitEvent());
+        infoItem.addActionListener(new MenuEvent.infoEvent());
+        modifyItem.addActionListener(new MenuEvent.modifyEvent());
+
+
+        //Add components to pop-up menu
+        popup.add(infoItem);
+        popup.addSeparator();
+        popup.add(modifyItem);
+        popup.add(exitItem);
+
+        trayIcon.setPopupMenu(popup);
+
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.err.println("TrayIcon could not be added.");
+        }
     }
     
     
     
-    static class exitEvent implements ActionListener {
+    class exitEvent implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
             System.exit(0);
         }
     }
 
-    static class infoEvent implements ActionListener {
+    class infoEvent implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
             //caricamento config
             BufferedReader reader;
             try {
-                reader = new BufferedReader(new FileReader( home + PTcartella + PTconfig));
+                reader = new BufferedReader(new FileReader( PTconfig));
                 String serverIp =  reader.readLine();
                 int portNumber = Integer.parseInt(reader.readLine());
                 reader.close();
@@ -46,7 +86,7 @@ public class MenuEvent {
         }
     }
 
-    static class modifyEvent implements ActionListener {
+    class modifyEvent implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
             String ip = JOptionPane.showInputDialog(new JFrame(),
@@ -55,7 +95,7 @@ public class MenuEvent {
                     "porta: ");
             BufferedWriter writer;
             try {
-                writer = new BufferedWriter(new FileWriter( home + PTcartella + PTconfig));
+                writer = new BufferedWriter(new FileWriter( PTconfig));
                 writer.write(ip);
                 writer.newLine();
                 writer.write(port);

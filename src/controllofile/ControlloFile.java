@@ -1,6 +1,5 @@
 package controllofile;
 
-import java.awt.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.util.Date;
@@ -11,7 +10,7 @@ public class ControlloFile{
     static String PTcartella = "\\BAA";
     static String PTlog = "\\cb.log";
     static String PTconfig = "\\config";
-    static String PTicona = "\\icona.png";
+    static String PTicona = ".\\icona.png";
     
     static String PTfilecontrollare = "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
@@ -26,7 +25,7 @@ public class ControlloFile{
 
     public static void log( String data ){
 
-        File file = new File( home + PTcartella + PTlog);
+        File file = new File( PTlog);
 
         try {
             BufferedWriter br = new BufferedWriter( new FileWriter( file, true) );
@@ -37,51 +36,17 @@ public class ControlloFile{
         } finally {
         }
     }
-
-    public static void creazioneMenu() {
-        //menu
-        //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per apple
-        //Check the SystemTray is supported
-        if (!SystemTray.isSupported()) {
-            System.err.println("SystemTray is not supported");
-            return;
-        }
-
-        final Image immagine = Toolkit.getDefaultToolkit().getImage(home + PTcartella +PTicona);
-        final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon = new TrayIcon( immagine);
-        final SystemTray tray = SystemTray.getSystemTray();
-
-        // Create a pop-up menu components
-        MenuItem infoItem = new MenuItem("Info");
-        MenuItem modifyItem = new MenuItem("Modifica");
-        MenuItem exitItem = new MenuItem("Exit");
-
-        //action
-        exitItem.addActionListener(new MenuEvent.exitEvent());
-        infoItem.addActionListener(new MenuEvent.infoEvent());
-        modifyItem.addActionListener(new MenuEvent.modifyEvent());
-
-
-        //Add components to pop-up menu
-        popup.add(infoItem);
-        popup.addSeparator();
-        popup.add(modifyItem);
-        popup.add(exitItem);
-
-        trayIcon.setPopupMenu(popup);
-
-        try {
-            tray.add(trayIcon);
-        } catch (AWTException e) {
-            System.err.println("TrayIcon could not be added.");
-        }
-    }
     
     public static void main(String[] args) throws InterruptedException, IOException {
 
+        
         String data;
-
+        Thread tw;
+        
+        // dati pc
+        username = System.getProperty("user.name");
+        home = System.getProperty("user.home");
+        
         //dati rete
         try {
             InetAddress addr = InetAddress.getLocalHost();
@@ -92,14 +57,17 @@ public class ControlloFile{
             ip = "errore";
             System.err.println("errore cercasi informazioni scheda di rete");        
         }
+        
+        //configurazione percori
+        PTfilecontrollare = home + PTfilecontrollare;
+        
 
-        // dati pc
-        username = System.getProperty("user.name");
-        home = System.getProperty("user.home");
+        PTlog = home + PTcartella + PTlog;
+        PTconfig = home + PTcartella + PTconfig;
 
         // cartella controllo
         try {
-            File cartella = new File( home + PTcartella);
+            File cartella = new File( PTcartella);
             if ( !cartella.exists() || !cartella.isFile() ) {
                 cartella.mkdir();
             }
@@ -109,7 +77,7 @@ public class ControlloFile{
 
         // file log controllo
         try {
-            File file = new File( home + PTcartella + PTlog);
+            File file = new File( PTlog);
             if ( !file.exists() ) {
                 file.createNewFile();
             }
@@ -119,10 +87,10 @@ public class ControlloFile{
         
         // file log controllo
         try {
-            File file = new File( home + PTcartella + PTconfig);
+            File file = new File( PTconfig);
             if ( !file.exists() ) {
                 file.createNewFile();
-                BufferedWriter bw = new BufferedWriter(new FileWriter( home + PTcartella + PTconfig));
+                BufferedWriter bw = new BufferedWriter(new FileWriter( PTconfig));
                 bw.write( "127.0.0.1\n4444\n");
                 bw.close();
             }
@@ -132,7 +100,7 @@ public class ControlloFile{
 
         //caricamento config --PERCORSO DA SISTEMARE
         try {
-            BufferedReader reader = new BufferedReader(new FileReader( home + PTcartella + PTconfig));
+            BufferedReader reader = new BufferedReader(new FileReader( PTconfig));
             serverIp = reader.readLine();
             portNumber = Integer.parseInt(reader.readLine());
             reader.close();
@@ -142,17 +110,13 @@ public class ControlloFile{
             serverIp = "127.0.0.1";
             portNumber = 4444;
             System.err.println("errore lettura porte falita");
-        } 
-
-        String path1 = home + PTfilecontrollare;
-
-        File file = new File( path1);
-        long mod = file.lastModified();
+        }     
         
-        new MenuEvent( PTcartella, PTconfig, home);
-        creazioneMenu();
-
-        Thread tw;
+        //creazione menu
+        new MenuEvent( PTconfig, PTicona);
+        
+        File file = new File( PTfilecontrollare);
+        long mod = file.lastModified();
 
         while (true) {
             if ( mod!=file.lastModified() ) {

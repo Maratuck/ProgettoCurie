@@ -1,13 +1,5 @@
 package controllofile;
 
-import static controllofile.ControlloFile.home;
-import java.awt.AWTException;
-import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.Toolkit;
-import java.awt.TrayIcon;
 import javax.swing.*;
 import java.net.*;
 import java.io.*;
@@ -24,58 +16,19 @@ public class Server {
     static String serverIp = "127.0.0.1"; 
     static int portNumber = 4444; 
     
-    public static void creazioneMenu() {
-        //menu
-        //System.setProperty("apple.laf.useScreenMenuBar", "true");  //per apple
-        //Check the SystemTray is supported
-        if (!SystemTray.isSupported()) {
-            System.err.println("SystemTray is not supported");
-            return;
-        }
-
-        final Image immagine = Toolkit.getDefaultToolkit().getImage(home + PTcartella +PTicona);
-        final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon = new TrayIcon( immagine);
-        final SystemTray tray = SystemTray.getSystemTray();
-
-        // Create a pop-up menu components
-        MenuItem infoItem = new MenuItem("Info");
-        MenuItem modifyItem = new MenuItem("Modifica");
-        MenuItem exitItem = new MenuItem("Exit");
-
-        //action
-        exitItem.addActionListener(new MenuEvent.exitEvent());
-        infoItem.addActionListener(new MenuEvent.infoEvent());
-        modifyItem.addActionListener(new MenuEvent.modifyEvent());
-
-
-        //Add components to pop-up menu
-        popup.add(infoItem);
-        popup.addSeparator();
-        popup.add(modifyItem);
-        popup.add(exitItem);
-
-        trayIcon.setPopupMenu(popup);
-
-        try {
-            tray.add(trayIcon);
-        } catch (AWTException e) {
-            System.err.println("TrayIcon could not be added.");
-        }
-    }
-    
     public static void main(String[] args) {
         
         home = System.getProperty("user.home");
-        
-        
-        new MenuEvent( PTcartella, PTconfig, home);
-        creazioneMenu();
 
+        PTlog = home + PTcartella + PTlog;
+        PTconfig = home + PTcartella + PTconfig;        
+        
+        new MenuEvent( PTconfig, PTicona);
+        
         //caricamento config --PERCORSO DA SISTEMARE
        BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader( home + PTcartella + PTconfig));
+            reader = new BufferedReader(new FileReader( PTconfig));
             reader.readLine();                                  //salta la prima riga
             portNumber = Integer.parseInt(reader.readLine());
             reader.close();
