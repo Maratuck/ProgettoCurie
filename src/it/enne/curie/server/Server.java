@@ -5,11 +5,11 @@ import it.enne.curie.common.LogWriter;
 
 import javax.swing.*;
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static it.enne.curie.common.CuriePaths.SEP;
-import static it.enne.curie.common.CuriePaths.getConfigPath;
+import static it.enne.curie.common.CuriePaths.*;
 
 public class Server {
 
@@ -35,14 +35,15 @@ public class Server {
 
                     while (inputLine != null) {
                         //TODO: Modifica lettura da String a oggetto Message
-                        //TODO: Ricavare IP client, data con System.currenttime...
                         inputLine = in.readLine();
                         if (inputLine != null) {
+                            String IpClient = ((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress().toString();
+                            String data = getCurrentData();
+                            logWriter.write(inputLine+";"+IpClient+";"+data);
                             JOptionPane.showMessageDialog(new JFrame(),
-                                    inputLine,
+                                    inputLine+";"+IpClient+";"+data,
                                     "Cambio Sfondo",
                                     JOptionPane.WARNING_MESSAGE);
-                            logWriter.write(inputLine);
                         }
                     }
                 }

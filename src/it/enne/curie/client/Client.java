@@ -70,9 +70,8 @@ public class Client {
             if (mod != file.lastModified()) {
                 mod = file.lastModified();
                 //data = System.currentTimeMillis();
-                Date dataObject = new Date();
-                String data = dataObject.getDate() + "/" + (dataObject.getMonth() + 1) + "/" + (dataObject.getYear() + 1900) + " " + dataObject.getHours() + ":" + dataObject.getMinutes();
-                logWriter.write("\"" + HOME + "\"" + ";" + "\"" + username + "\"" + ";" + "\"" + data + "\"");
+                String data = getCurrentData();
+                logWriter.write(HOME + ";" + username + ";" + data );
                 Thread invio = new Invio(new Message(username), serverAddress, port);
                 invio.start();
                 System.out.println("modificato");
