@@ -27,11 +27,10 @@ public class LogWriter {
             System.err.println("errore creazione file");
         }
 
-        //conta rige file log
+        //conta righe file log
         rowCont = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(log))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+            while ((br.readLine()) != null) {
                 rowCont++;
             }
         } catch (Exception e) {
@@ -41,32 +40,31 @@ public class LogWriter {
     }
 
     public void write(String line) {
-        if (rowCont<20) {
-            try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(log, true))))) {
-                writer.append(line);
-                rowCont++;
-            } catch (Exception e) {
-                System.err.println("Errore scrittura nel log: " + line);
-            }
-        } else {
+        if (rowCont>=20) { // eliminazione prima riga file
             File temp = new File(log+"tmp");
             try (
                     PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp))));
-                    BufferedReader br = new BufferedReader(new FileReader(log));
+                    BufferedReader br = new BufferedReader(new FileReader(log))
             ) {
                 String let;
                 br.readLine();
                 while ((let = br.readLine()) != null) {
                     writer.write(let+"\n");
                 }
-                writer.write(line);
-                writer.close();
-                br.close();
-                log.delete();
-                temp.renameTo(log);
+                rowCont--;
             } catch (Exception e) {
-                System.err.println("Errore scrittura nel log: " + line);
+                System.err.println("Errore eliminazione prima riga file log");
             }
+            if (!log.delete() || !temp.renameTo(log)) {
+                System.err.println("errore switch  file temporaneo file log");
+            }
+        }
+        // aggiunta riga in fondo al file di log
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(log, true))))) {
+            writer.append(line).append("\n");
+            rowCont++;
+        } catch (Exception e) {
+            System.err.println("Errore scrittura nel log: " + line);
         }
     }
 

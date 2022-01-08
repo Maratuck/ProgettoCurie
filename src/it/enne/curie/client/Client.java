@@ -40,7 +40,7 @@ public class Client {
             File file = new File(getConfigPath());
             if (!file.exists()) {
                 file.createNewFile();
-                PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getConfigPath(), true))));
+                PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getConfigPath()))), true);
                 writer.println(DEFAULT_SERVER_IP);
                 writer.println(DEFAULT_SERVER_PORT);
                 writer.close();
@@ -60,7 +60,7 @@ public class Client {
             reader.close();
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("errore lettura porte falita");
+            System.err.println("errore lettura porte fallita");
         }
 
         File file = new File(CHECK_FILE);
@@ -72,7 +72,7 @@ public class Client {
                 //data = System.currentTimeMillis();
                 Date dataObject = new Date();
                 String data = dataObject.getDate() + "/" + (dataObject.getMonth() + 1) + "/" + (dataObject.getYear() + 1900) + " " + dataObject.getHours() + ":" + dataObject.getMinutes();
-                logWriter.write("\"" + HOME + "\"" + ";" + "\"" + username + "\"" + ";" + "\"" + data + "\"" + "\n");
+                logWriter.write("\"" + HOME + "\"" + ";" + "\"" + username + "\"" + ";" + "\"" + data + "\"");
                 Thread invio = new Invio(new Message(username), serverAddress, port);
                 invio.start();
                 System.out.println("modificato");
