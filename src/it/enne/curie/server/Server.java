@@ -10,11 +10,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static it.enne.curie.common.CuriePaths.*;
+import static it.enne.curie.common.CustomExtension.*;
 
 public class Server {
 
     private final String icon;
     private final LogWriter logWriter;
+
+    private String[] SERVER = new String[]{"127.0.0.1","4444"};
 
     public Server() {
         icon = ".." + SEP + "resources" + SEP + "icona.png";
@@ -66,19 +69,15 @@ public class Server {
             File file = new File(getConfigPath());
             if (!file.exists()) {
                 file.createNewFile();
-                PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getConfigPath(), true))));
-                writer.println("127.0.0.1");
-                writer.println(4444);
-                writer.close();
+                EncodeWrite(SERVER, file);
             }
         } catch (Exception e) {
             System.err.println("errore creazione file");
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(getConfigPath()))) {
-            //salta la prima riga
-            reader.readLine();
-            return Integer.parseInt(reader.readLine());
+        try {
+            SERVER = ReadDecode(new File(getConfigPath()));
+            return Integer.parseInt(SERVER[1]);
         } catch (IOException e) {
             e.printStackTrace();
             return 4444;

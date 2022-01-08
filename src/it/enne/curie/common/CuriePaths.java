@@ -22,7 +22,7 @@ public class CuriePaths {
     }
 
     public static String getConfigPath() {
-        return HOME + SEP + FOLDER_NAME + SEP + "config.txt";
+        return HOME + SEP + FOLDER_NAME + SEP + "config.mkt";
     }
 
     public static String getCurrentData() { return formatoData.format( Calendar.getInstance().getTime() ); }

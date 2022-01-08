@@ -5,16 +5,15 @@ import it.enne.curie.common.LogWriter;
 import it.enne.curie.common.Message;
 
 import java.io.*;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static it.enne.curie.common.CuriePaths.*;
+import static it.enne.curie.common.CustomExtension.*;
 
 public class Client {
 
     //TODO: Sostituire con l'IP del prof
-    private static final String DEFAULT_SERVER_IP = "127.0.0.1";
-    private static final int DEFAULT_SERVER_PORT = 4444;
+    private static final String[] DEFAULT_SERVER = new String[]{"127.0.0.1", "4444"};
     private static final String CHECK_FILE = HOME + "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
     private final String username;
@@ -40,24 +39,17 @@ public class Client {
             File file = new File(getConfigPath());
             if (!file.exists()) {
                 file.createNewFile();
-                PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(getConfigPath()))), true);
-                writer.println(DEFAULT_SERVER_IP);
-                writer.println(DEFAULT_SERVER_PORT);
-                writer.close();
+                EncodeWrite(DEFAULT_SERVER, file);
             }
         } catch (Exception e) {
             System.err.println("errore creazione file");
         }
 
-        String serverAddress = DEFAULT_SERVER_IP;
-        int port = DEFAULT_SERVER_PORT;
+        String[] SERVER = DEFAULT_SERVER;
 
-        //caricamento config.txt
+        //caricamento config.mkt
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(getConfigPath()));
-            serverAddress = reader.readLine();
-            port = Integer.parseInt(reader.readLine());
-            reader.close();
+            SERVER = ReadDecode(new File(getConfigPath()));
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("errore lettura porte fallita");
@@ -72,7 +64,7 @@ public class Client {
                 //data = System.currentTimeMillis();
                 String data = getCurrentData();
                 logWriter.write(HOME + ";" + username + ";" + data );
-                Thread invio = new Invio(new Message(username), serverAddress, port);
+                Thread invio = new Invio(new Message(username), SERVER[0], Integer.parseInt(SERVER[1]));
                 invio.start();
                 System.out.println("modificato");
             }
