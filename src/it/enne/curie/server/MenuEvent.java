@@ -2,6 +2,7 @@ package it.enne.curie.server;
 
 import it.enne.curie.common.LogWriter;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class MenuEvent extends TrayIcon {
@@ -9,7 +10,7 @@ public class MenuEvent extends TrayIcon {
     private final LogWriter logWriter;
 
     public MenuEvent(LogWriter logWriter, String icon) {
-        super(Toolkit.getDefaultToolkit().getImage(icon));
+        super(new ImageIcon(icon,"tray icon").getImage());
 
         this.logWriter = logWriter;
     }

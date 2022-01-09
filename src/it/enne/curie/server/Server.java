@@ -20,6 +20,7 @@ public class Server {
     private String[] SERVER = new String[]{"127.0.0.1","4444"};
 
     public Server() {
+        //TODO: correggere icona
         icon = ".." + SEP + "resources" + SEP + "icona.png";
         logWriter = new LogWriter(CuriePaths.getLogPath()+"s"); // solo per i test per fare in modo che non scriva nello stesso file di log del client
     }
