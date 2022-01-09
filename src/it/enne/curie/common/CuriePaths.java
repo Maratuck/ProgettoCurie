@@ -25,5 +25,7 @@ public class CuriePaths {
         return HOME + SEP + FOLDER_NAME + SEP + "config.mkt";
     }
 
+    public static String getFolderName() { return HOME + SEP + FOLDER_NAME; }
+
     public static String getCurrentData() { return formatoData.format( Calendar.getInstance().getTime() ); }
 }

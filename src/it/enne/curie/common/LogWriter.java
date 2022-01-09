@@ -15,7 +15,7 @@ public class LogWriter {
 
         try {
             // cartella controllo
-            File cartella = new File(HOME + FOLDER_NAME);
+            File cartella = new File(getFolderName());
             if (!cartella.exists() || !cartella.isFile()) {
                 cartella.mkdirs();
             }
