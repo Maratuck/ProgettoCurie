@@ -10,7 +10,7 @@ public class MenuEvent extends TrayIcon {
     private final LogWriter logWriter;
 
     public MenuEvent(LogWriter logWriter, String icon) {
-        super(new ImageIcon(icon,"tray icon").getImage());
+        super(new ImageIcon(icon,"tray icon").getImage(), "Controllo Sfondo");
 
         this.logWriter = logWriter;
     }

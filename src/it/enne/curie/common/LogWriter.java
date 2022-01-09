@@ -3,6 +3,8 @@ package it.enne.curie.common;
 import java.awt.*;
 import java.io.*;
 
+import static it.enne.curie.common.CuriePaths.*;
+
 public class LogWriter {
 
     private final File log;
@@ -13,7 +15,7 @@ public class LogWriter {
 
         try {
             // cartella controllo
-            File cartella = new File(CuriePaths.HOME + CuriePaths.FOLDER_NAME);
+            File cartella = new File(HOME + FOLDER_NAME);
             if (!cartella.exists() || !cartella.isFile()) {
                 cartella.mkdirs();
             }
@@ -40,6 +42,7 @@ public class LogWriter {
     }
 
     public void write(String line) {
+        log.setWritable(true,true);
         if (rowCont>=20) { // eliminazione prima riga file
             File temp = new File(log+"tmp");
             try (
@@ -66,6 +69,7 @@ public class LogWriter {
         } catch (Exception e) {
             System.err.println("Errore scrittura nel log: " + line);
         }
+        log.setWritable(false,false);
     }
 
     public void openFile() {

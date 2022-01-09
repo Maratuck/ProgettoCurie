@@ -21,7 +21,7 @@ public class Server {
 
     public Server() {
         icon = "src/it/enne/curie/resources/icona.png";
-        logWriter = new LogWriter(CuriePaths.getLogPath()+"s"); // solo per i test per fare in modo che non scriva nello stesso file di log del client
+        logWriter = new LogWriter(getLogPath()+"s"); // solo per i test per fare in modo che non scriva nello stesso file di log del client
     }
 
     public void start() {
@@ -61,7 +61,7 @@ public class Server {
         // controlla esistenza
         try {
             // controllo cartella
-            File cartella = new File(CuriePaths.HOME + CuriePaths.FOLDER_NAME);
+            File cartella = new File(HOME + FOLDER_NAME);
             if (!cartella.exists() || !cartella.isFile()) {
                 cartella.mkdirs();
             }
