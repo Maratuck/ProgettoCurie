@@ -12,7 +12,7 @@ public class CuriePaths {
     public static final String FOLDER_NAME = "BAA";
     public static final String LOG_NAME = "cb.log";
 
-    public static final SimpleDateFormat formatoData = new SimpleDateFormat( "yyyy-MM-dd' 'HH:mm:ss" );
+    public static final SimpleDateFormat formatoData = new SimpleDateFormat( "yyyy-MM-dd',  'HH:mm:ss" );
 
     private CuriePaths() {
     }

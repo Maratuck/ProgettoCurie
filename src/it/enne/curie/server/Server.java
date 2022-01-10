@@ -1,9 +1,7 @@
 package it.enne.curie.server;
 
-import it.enne.curie.common.CuriePaths;
 import it.enne.curie.common.LogWriter;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -40,13 +38,11 @@ public class Server {
                         //TODO: Modifica lettura da String a oggetto Message
                         inputLine = in.readLine();
                         if (inputLine != null) {
-                            String IpClient = ((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress().toString();
+                            String IpClient = ((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress().toString().substring(1);
                             String data = getCurrentData();
-                            logWriter.write(inputLine+";"+IpClient+";"+data);
-                            JOptionPane.showMessageDialog(new JFrame(),
-                                    inputLine+";"+IpClient+";"+data,
-                                    "Cambio Sfondo",
-                                    JOptionPane.WARNING_MESSAGE);
+                            String message = inputLine+",  "+IpClient+",  "+data;
+                            logWriter.write(message);
+                            new NotificationMenu(message).checkresult();
                         }
                     }
                 }
