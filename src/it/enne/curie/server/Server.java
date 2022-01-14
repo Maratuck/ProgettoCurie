@@ -42,7 +42,7 @@ public class Server {
                             String data = getCurrentData();
                             String message = inputLine+",  "+IpClient+",  "+data;
                             logWriter.write(message);
-                            new NotificationMenu(message).checkresult();
+                            new NotificationMenu(message).checkresult( IpClient);
                         }
                     }
                 }

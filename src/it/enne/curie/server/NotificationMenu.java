@@ -1,5 +1,7 @@
 package it.enne.curie.server;
 
+import it.enne.curie.server.finestra.FinestraPosizioni;
+
 import javax.swing.*;
 
 public class NotificationMenu extends JOptionPane {
@@ -18,10 +20,9 @@ public class NotificationMenu extends JOptionPane {
                messageOptions[1]);
     }
 
-    public void checkresult() {
+    public void checkresult(String ipClient) {
             if (result == 0) {
-                //TODO: @enne139 da aggiungere vista banchi
-                showMessageDialog(null, "prova");
+                new FinestraPosizioni(ipClient);
             }
     }
 
