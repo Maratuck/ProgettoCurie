@@ -14,7 +14,9 @@ public class CustomExtension {
 
         SERVER = new String[]{new String(encodedip), new String(encodedport)};
 
+        file.setWritable(true, true);
         writer.writeObject(SERVER);
+        file.setWritable(false, false);
     }
 
     public static String[] CustomExtensionReader(File file) throws IOException, ClassNotFoundException {

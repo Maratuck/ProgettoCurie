@@ -63,7 +63,7 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
         Quadrato qua = (Quadrato) e.getSource();
 
         if (qua.getIpSalv() == null) { // se non c'è nessun valore salvato nel bottone
-            classeWriter.modifica(qua.getX(), qua.getY(), this.ipDat);
+            classeWriter.modifica(qua.getPosX(), qua.getPosY(), this.ipDat);
             qua.setBackground(Color.RED);
             qua.setText(this.ipDat);
             this.presente = true;

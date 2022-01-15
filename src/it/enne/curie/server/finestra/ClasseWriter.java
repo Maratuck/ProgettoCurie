@@ -42,7 +42,6 @@ public class ClasseWriter {
     public String[][] read() {
 
         creazioneFile();
-
         try ( ObjectInputStream reader = new ObjectInputStream(new FileInputStream (file))) {
 
             return (String[][]) reader.readObject();
@@ -56,6 +55,7 @@ public class ClasseWriter {
     public void write(String[][] classe) {
 
         creazioneFile();
+        file.setWritable(true, true);
 
         try ( ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream (file))) {
 
@@ -64,6 +64,8 @@ public class ClasseWriter {
         } catch (Exception e) {
             System.err.println("errore scrittura file classe");
         }
+
+        file.setWritable(false, false);
 
     }
 
@@ -78,7 +80,6 @@ public class ClasseWriter {
         }
 
         write(classe);
-
     }
 
 
