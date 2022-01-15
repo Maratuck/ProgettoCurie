@@ -14,9 +14,15 @@ public class CustomExtension {
 
         SERVER = new String[]{new String(encodedip), new String(encodedport)};
 
-        file.setWritable(true, true);
+        boolean isWritable = file.setWritable(true, true);
+        if (!isWritable) {
+            System.err.println("errore scrittura config");
+        }
         writer.writeObject(SERVER);
-        file.setWritable(false, false);
+        isWritable = file.setWritable(false, false);
+        if (!isWritable) {
+            System.err.println("config modificabile");
+        }
     }
 
     public static String[] CustomExtensionReader(File file) throws IOException, ClassNotFoundException {

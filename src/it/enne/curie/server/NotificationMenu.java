@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class NotificationMenu extends JOptionPane {
 
-    int result;
+    final int result;
 
     public NotificationMenu(String message) {
         String[] messageOptions = new String[]{"Visualizza", "Ok"};
