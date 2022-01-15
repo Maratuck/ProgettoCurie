@@ -9,13 +9,13 @@ import static it.enne.curie.common.CuriePaths.*;
 
 public class FinestraPosizioni extends JFrame implements ActionListener {
 
-    final int righe = 5;
-    final int colonne = 3;
-    final String ipDat;
-    final Quadrato[][] quadrati;
+    int righe = 5;
+    int colonne = 3;
+    String ipDat;
+    Quadrato quadrati[][];
     boolean presente = false; // variabile per sapere se è gia presente l'ip
 
-    final ClasseWriter classeWriter;
+    ClasseWriter classeWriter;
 
     public FinestraPosizioni(String ipDat) {
         //TODO: aggiungere lettura config
@@ -32,7 +32,7 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
 
         quadrati = new Quadrato[colonne][righe];
 
-        String[][] classe = classeWriter.read();
+        String classe[][] = classeWriter.read();
 
         for (int y=0; y<righe; y++) {
             for (int x=0; x<colonne; x++) {

@@ -6,11 +6,9 @@ import static it.enne.curie.common.CuriePaths.*;
 
 public class ClasseWriter {
 
-    final int righe;
-    final int colonne;
-    final File file;
-    boolean IsCreated;
-    boolean isWritable;
+    int righe;
+    int colonne;
+    File file;
 
     public ClasseWriter(int colonne, int righe, String classePath) {
         this.righe = righe;
@@ -24,21 +22,15 @@ public class ClasseWriter {
             // controllo cartella
             File cartella = new File(getFolderName());
             if (!cartella.exists() || !cartella.isFile()) {
-                IsCreated = cartella.mkdirs();
-                if (IsCreated) {
-                    System.out.println("folder created");
-                }
+                cartella.mkdirs();
             }
-            // controllo file classe
+            // controllo file config
             if (!file.exists()) {
-                IsCreated = file.createNewFile();
-                if (IsCreated) {
-                    System.out.println("classe created");
-                }
+                file.createNewFile();
 
                 ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream (file));
 
-                String[][] classe = new String[colonne][righe];
+                String classe[][] = new String[colonne][righe];
                 writer.writeObject(classe);
             }
         } catch (Exception e) {
@@ -63,10 +55,7 @@ public class ClasseWriter {
     public void write(String[][] classe) {
 
         creazioneFile();
-        isWritable = file.setWritable(true, true);
-        if (!isWritable) {
-            System.err.println("errore scrittura classe");
-        }
+        file.setWritable(true, true);
 
         try ( ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream (file))) {
 
@@ -76,16 +65,13 @@ public class ClasseWriter {
             System.err.println("errore scrittura file classe");
         }
 
-        isWritable = file.setWritable(false, false);
-        if (!isWritable) {
-            System.err.println("classe modificabile");
-        }
+        file.setWritable(false, false);
 
     }
 
     public void modifica(int x, int y, String ip) {
 
-        String[][] classe = read();
+        String classe[][] = read();
 
         try {
             classe[x][y] = ip;

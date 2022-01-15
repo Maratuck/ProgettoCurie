@@ -16,21 +16,14 @@ public class LogWriter {
         try {
             // cartella controllo
             File cartella = new File(getFolderName());
-            boolean isCreated;
             if (!cartella.exists() || !cartella.isFile()) {
-                isCreated = cartella.mkdirs();
-                if (isCreated) {
-                    System.out.println("folder created");
-                }
+                cartella.mkdirs();
             }
 
             // file log controllo
             File file = new File(logPath);
             if (!file.exists()) {
-                isCreated = file.createNewFile();
-                if (isCreated) {
-                    System.out.println("log created");
-                }
+                file.createNewFile();
             }
         } catch (IOException e) {
             System.err.println("errore creazione file");
@@ -49,11 +42,7 @@ public class LogWriter {
     }
 
     public void write(String line) {
-        boolean isWritable = log.setWritable(true, true);
-        if (!isWritable) {
-            System.err.println("errore scrittura log");
-        }
-
+        log.setWritable(true,true);
         if (rowCont>=20) { // eliminazione prima riga file
             File temp = new File(log+"tmp");
             try (
@@ -80,10 +69,7 @@ public class LogWriter {
         } catch (Exception e) {
             System.err.println("Errore scrittura nel log: " + line);
         }
-        isWritable = log.setWritable(false,false);
-        if (!isWritable) {
-            System.err.println("log modificabile");
-        }
+        log.setWritable(false,false);
     }
 
     public void openFile() {

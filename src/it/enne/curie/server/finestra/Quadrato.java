@@ -5,10 +5,10 @@ import java.awt.*;
 
 public class Quadrato extends JButton {
 
-    private final String ipSalv;
-    private final Dimension dimensione = new Dimension(50,50);
-    private final int posX;
-    private final int posY;
+    private String ipSalv;
+    private Dimension dimensione = new Dimension(50,50);
+    private int posX;
+    private int posY;
 
     public Quadrato(int posX, int posY) {
         this.ipSalv = null;

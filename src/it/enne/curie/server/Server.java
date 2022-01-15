@@ -58,20 +58,13 @@ public class Server {
         try {
             // controllo cartella
             File cartella = new File(getFolderName());
-            boolean isCreated;
             if (!cartella.exists() || !cartella.isFile()) {
-                isCreated = cartella.mkdirs();
-                if (isCreated) {
-                    System.out.println("folder created");
-                }
+                cartella.mkdirs();
             }
             // controllo file config
             File file = new File(getConfigPath());
             if (!file.exists()) {
-                isCreated = file.createNewFile();
-                if (isCreated) {
-                    System.out.println("config created");
-                }
+                file.createNewFile();
                 CustomExtensionWriter(SERVER, file);
             }
         } catch (Exception e) {
