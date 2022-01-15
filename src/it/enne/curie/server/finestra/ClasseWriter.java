@@ -6,9 +6,9 @@ import static it.enne.curie.common.CuriePaths.*;
 
 public class ClasseWriter {
 
-    int righe;
-    int colonne;
-    File file;
+    final int righe;
+    final int colonne;
+    final File file;
 
     public ClasseWriter(int colonne, int righe, String classePath) {
         this.righe = righe;
