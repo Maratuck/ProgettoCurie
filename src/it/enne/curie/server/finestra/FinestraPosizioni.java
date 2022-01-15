@@ -21,7 +21,6 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
 
     public FinestraPosizioni(String ipDat) {
         //TODO: aggiungere lettura config
-        //TODO: correzione visualizzazione
         super();
         this.ipDat = ipDat;
         classeWriter = new ClasseWriter(colonne, righe, getFolderName()+SEP+"classe.dat");
