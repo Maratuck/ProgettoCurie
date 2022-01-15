@@ -65,16 +65,16 @@ public class Server {
             File file = new File(getConfigPath());
             if (!file.exists()) {
                 file.createNewFile();
-                EncodeWrite(SERVER, file);
+                CustomExtensionWriter(SERVER, file);
             }
         } catch (Exception e) {
             System.err.println("errore creazione file");
         }
 
         try {
-            SERVER = ReadDecode(new File(getConfigPath()));
+            SERVER = CustomExtensionReader(new File(getConfigPath()));
             return Integer.parseInt(SERVER[1]);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return 4444;
         }

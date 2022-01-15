@@ -1,7 +1,5 @@
 package it.enne.curie.server.finestra;
 
-import it.enne.curie.server.finestra.ClasseWriter;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,7 +34,6 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
 
         String classe[][] = classeWriter.read();
 
-
         for (int y=0; y<righe; y++) {
             for (int x=0; x<colonne; x++) {
                 if (classe[x][y] == null) { // se in quella posizione non è salvato nessun valore
@@ -54,7 +51,7 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
         }
 
         setSize( 600,800);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 

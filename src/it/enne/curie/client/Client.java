@@ -39,7 +39,7 @@ public class Client {
             File file = new File(getConfigPath());
             if (!file.exists()) {
                 file.createNewFile();
-                EncodeWrite(DEFAULT_SERVER, file);
+                CustomExtensionWriter(DEFAULT_SERVER, file);
             }
         } catch (Exception e) {
             System.err.println("errore creazione file");
@@ -49,7 +49,7 @@ public class Client {
 
         //caricamento config.mkt
         try {
-            SERVER = ReadDecode(new File(getConfigPath()));
+            SERVER = CustomExtensionReader(new File(getConfigPath()));
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("errore lettura porte fallita");
