@@ -6,37 +6,36 @@ import java.awt.*;
 public class Quadrato extends JButton {
 
     private String ipSalv;
-    private Dimension dimension = new Dimension(50,50);
-    private int x;
-    private int y;
+    private Dimension dimensione = new Dimension(50,50);
+    private int posX;
+    private int posY;
 
-    public Quadrato(int x, int y) {
-        super();
+    public Quadrato(int posX, int posY) {
         this.ipSalv = null;
-        setBackground(Color.BLUE);
-        setPreferredSize( dimension);
-        this.y = y;
-        this.x = x;
+        this.setBackground(Color.BLUE);
+        this.setPreferredSize(dimensione);
+        this.posY = posY;
+        this.posX = posX;
+        this.setText("");
     }
 
-    public Quadrato(int x, int y, String ipSalv) {
-        super();
+    public Quadrato(int posX, int posY, String ipSalv) {
         this.ipSalv = ipSalv;
-        setBackground(Color.GREEN);
-        setPreferredSize( dimension);
-        this.y = y;
-        this.x = x;
-        setText(ipSalv);
+        this.setBackground(Color.GREEN);
+        this.setPreferredSize(dimensione);
+        this.posY = posY;
+        this.posX = posX;
+        this.setText(ipSalv);
     }
 
-    public int getX() {
-        return x;
+    public int getPosX() {
+        return this.posX;
     }
 
-    public int getY() {
-        return y;
+    public int getPosY() {
+        return this.posY;
     }
 
-    public String getIpSalv() { return ipSalv; }
+    public String getIpSalv() { return this.ipSalv; }
 
 }

@@ -25,7 +25,7 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
         super();
         this.ipDat = ipDat;
         classeWriter = new ClasseWriter(colonne, righe, getFolderName()+SEP+"classe.dat");
-        JPanel pannello = new JPanel();
+        Container pannello = getContentPane();
         GridLayout layout = new GridLayout(righe, colonne);
 
         layout.setHgap(25);
@@ -54,7 +54,6 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
             }
         }
 
-        add(pannello);
         setSize( 600,800);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
