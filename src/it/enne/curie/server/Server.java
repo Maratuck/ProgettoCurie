@@ -29,7 +29,8 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(portNumber);
 
-            while (true) {
+            boolean errore = false;
+            while (!errore) {
                 try (Socket clientSocket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
                     String inputLine = "";
@@ -45,6 +46,8 @@ public class Server {
                             new NotificationMenu(message).checkresult( IpClient);
                         }
                     }
+                } catch (Exception e) {
+                    errore = true;
                 }
             }
         } catch (IOException e) {
