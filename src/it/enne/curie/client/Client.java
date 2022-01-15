@@ -64,27 +64,22 @@ public class Client {
         File file = new File(CHECK_FILE);
         long mod = file.lastModified();
 
-        boolean errore = false;
-        while (!errore) {
-            try {
-                try {
-                    Thread.sleep(TimeUnit.SECONDS.toMillis(2));
-                    //Thread.sleep(TimeUnit.MINUTES.toMillis(2));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        while (true) {
+            if (mod != file.lastModified()) {
+                mod = file.lastModified();
+                //data = System.currentTimeMillis();
+                String data = getCurrentData();
+                logWriter.write(HOME + ";" + username + ";" + data );
+                Thread invio = new Invio(new Message(username), SERVER[0], Integer.parseInt(SERVER[1]));
+                invio.start();
+                System.out.println("modificato");
+            }
 
-                if (mod != file.lastModified()) {
-                    mod = file.lastModified();
-                    //data = System.currentTimeMillis();
-                    String data = getCurrentData();
-                    logWriter.write(HOME + ";" + username + ";" + data);
-                    Thread invio = new Invio(new Message(username), SERVER[0], Integer.parseInt(SERVER[1]));
-                    invio.start();
-                    System.out.println("modificato");
-                }
-            } catch (Exception e) {
-                errore = true;
+            try {
+                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+                //Thread.sleep(TimeUnit.MINUTES.toMillis(2));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
