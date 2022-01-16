@@ -4,38 +4,47 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import static it.enne.curie.common.CuriePaths.*;
+import static it.enne.curie.common.CustomConfig.*;
 
 public class FinestraPosizioni extends JFrame implements ActionListener {
-
-    int righe = 5;
-    int colonne = 3;
-    String ipDat;
-    Quadrato quadrati[][];
+    
+    final int[] map;
+    final String ipDat;
+    final Quadrato[][] quadrati;
+    final String icon = "src/it/enne/curie/resources/icona.png";
+    final String config = getConfigPath() + "s"; // solo per i test per fare in modo che non scriva nello stesso file di config del client
     boolean presente = false; // variabile per sapere se è gia presente l'ip
 
-    ClasseWriter classeWriter;
+    final ClasseWriter classeWriter;
 
-    public FinestraPosizioni(String ipDat) {
+    public FinestraPosizioni(String ipDat) throws IOException, ClassNotFoundException {
         //TODO: aggiungere lettura config
         super();
+        setTitle("Mappa banchi");
+        setIconImage(new ImageIcon(icon, "Icona").getImage());
         this.ipDat = ipDat;
-        classeWriter = new ClasseWriter(colonne, righe, getFolderName()+SEP+"classe.dat");
+
+        map = CustomConfigMapReader(new File(config));
+        
+        classeWriter = new ClasseWriter(map[0], map[1], getFolderName()+SEP+"classe.dat");
         Container pannello = getContentPane();
-        GridLayout layout = new GridLayout(righe, colonne);
+        GridLayout layout = new GridLayout(map[0], map[1]);
 
         layout.setHgap(25);
         layout.setVgap(25);
 
         pannello.setLayout(layout);
 
-        quadrati = new Quadrato[colonne][righe];
+        quadrati = new Quadrato[map[0]][map[1]];
 
-        String classe[][] = classeWriter.read();
+        String[][] classe = classeWriter.read();
 
-        for (int y=0; y<righe; y++) {
-            for (int x=0; x<colonne; x++) {
+        for (int y=0; y<map[1]; y++) {
+            for (int x=0; x<map[0]; x++) {
                 if (classe[x][y] == null) { // se in quella posizione non è salvato nessun valore
                     quadrati[x][y] = new Quadrato( x, y);
                 } else {

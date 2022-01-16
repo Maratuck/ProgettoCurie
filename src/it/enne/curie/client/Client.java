@@ -1,6 +1,5 @@
 package it.enne.curie.client;
 
-import it.enne.curie.common.CuriePaths;
 import it.enne.curie.common.LogWriter;
 import it.enne.curie.common.Message;
 
@@ -8,7 +7,7 @@ import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 import static it.enne.curie.common.CuriePaths.*;
-import static it.enne.curie.common.CustomExtension.*;
+import static it.enne.curie.common.CustomConfig.*;
 
 public class Client {
 
@@ -39,7 +38,7 @@ public class Client {
             File file = new File(getConfigPath());
             if (!file.exists()) {
                 file.createNewFile();
-                CustomExtensionWriter(DEFAULT_SERVER, file);
+                CustomConfigWriter(DEFAULT_SERVER, file);
             }
         } catch (Exception e) {
             System.err.println("errore creazione file");
@@ -49,7 +48,7 @@ public class Client {
 
         //caricamento config.mkt
         try {
-            SERVER = CustomExtensionReader(new File(getConfigPath()));
+            SERVER = CustomConfigServerReader(new File(getConfigPath()));
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("errore lettura porte fallita");

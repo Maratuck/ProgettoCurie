@@ -30,7 +30,7 @@ public class ClasseWriter {
 
                 ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream (file));
 
-                String classe[][] = new String[colonne][righe];
+                String[][] classe = new String[colonne][righe];
                 writer.writeObject(classe);
             }
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class ClasseWriter {
 
     public void modifica(int x, int y, String ip) {
 
-        String classe[][] = read();
+        String[][] classe = read();
 
         try {
             classe[x][y] = ip;

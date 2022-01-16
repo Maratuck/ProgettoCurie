@@ -11,6 +11,7 @@ public class CuriePaths {
     public static final String SEP = File.separator;
     public static final String FOLDER_NAME = "BAA";
     public static final String LOG_NAME = "cb.log";
+    public static final String CONFIG = "config.mkt";
 
     public static final SimpleDateFormat formatoData = new SimpleDateFormat( "yyyy-MM-dd',  'HH:mm:ss" );
 
@@ -22,7 +23,7 @@ public class CuriePaths {
     }
 
     public static String getConfigPath() {
-        return HOME + SEP + FOLDER_NAME + SEP + "config.mkt";
+        return HOME + SEP + FOLDER_NAME + SEP + CONFIG;
     }
 
     public static String getFolderName() { return HOME + SEP + FOLDER_NAME; }

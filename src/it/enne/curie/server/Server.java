@@ -8,18 +8,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static it.enne.curie.common.CuriePaths.*;
-import static it.enne.curie.common.CustomExtension.*;
+import static it.enne.curie.common.CustomConfig.*;
 
 public class Server {
 
     private final String icon;
     private final LogWriter logWriter;
+    private final String CONFIG;
 
     private String[] SERVER = new String[]{"127.0.0.1","4444"};
+    private final int[] DEFAULT_MAP = new int[]{5,3};
 
     public Server() {
         icon = "src/it/enne/curie/resources/icona.png";
         logWriter = new LogWriter(getLogPath()+"s"); // solo per i test per fare in modo che non scriva nello stesso file di log del client
+        CONFIG = getConfigPath() + "s"; // solo per i test per fare in modo che non scriva nello stesso file di config del client
+
     }
 
     public void start() {
@@ -45,6 +49,8 @@ public class Server {
                             new NotificationMenu(message).checkresult( IpClient);
                         }
                     }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
@@ -62,17 +68,17 @@ public class Server {
                 cartella.mkdirs();
             }
             // controllo file config
-            File file = new File(getConfigPath());
+            File file = new File(CONFIG);
             if (!file.exists()) {
                 file.createNewFile();
-                CustomExtensionWriter(SERVER, file);
+                CustomConfigWriter(SERVER, DEFAULT_MAP, file);
             }
         } catch (Exception e) {
             System.err.println("errore creazione file");
         }
 
         try {
-            SERVER = CustomExtensionReader(new File(getConfigPath()));
+            SERVER = CustomConfigServerReader(new File(CONFIG));
             return Integer.parseInt(SERVER[1]);
         } catch (Exception e) {
             e.printStackTrace();
