@@ -9,8 +9,6 @@ public class ClasseWriter {
     final int righe;
     final int colonne;
     final File file;
-    boolean IsCreated;
-    boolean isWritable;
 
     public ClasseWriter(int colonne, int righe, String classePath) {
         this.righe = righe;
@@ -19,21 +17,22 @@ public class ClasseWriter {
     }
 
     private void creazioneFile() {
+        boolean isCreated;
 
         try {
             // controllo cartella
             File cartella = new File(getFolderName());
             if (!cartella.exists() || !cartella.isFile()) {
-                IsCreated = cartella.mkdirs();
-                if (IsCreated) {
+                isCreated = cartella.mkdirs();
+                if (isCreated) {
                     System.out.println("folder created");
                 }
             }
-            // controllo file classe
+            // controllo file config
             if (!file.exists()) {
-                IsCreated = file.createNewFile();
-                if (IsCreated) {
-                    System.out.println("classe created");
+                isCreated = file.createNewFile();
+                if (isCreated) {
+                    System.out.println("config created");
                 }
 
                 ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream (file));
@@ -61,24 +60,26 @@ public class ClasseWriter {
     }
 
     public void write(String[][] classe) {
+        boolean isWritable;
 
         creazioneFile();
         isWritable = file.setWritable(true, true);
-        if (!isWritable) {
-            System.err.println("errore scrittura classe");
-        }
+        if (isWritable) {
 
-        try ( ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream (file))) {
+            try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file))) {
 
-            writer.writeObject(classe);
+                writer.writeObject(classe);
 
-        } catch (Exception e) {
+            } catch (Exception e) {
+                System.err.println("errore scrittura file classe");
+            }
+
+            isWritable = file.setWritable(false, false);
+            if (!isWritable) {
+                System.err.println("classe modificabile");
+            }
+        } else {
             System.err.println("errore scrittura file classe");
-        }
-
-        isWritable = file.setWritable(false, false);
-        if (!isWritable) {
-            System.err.println("classe modificabile");
         }
 
     }

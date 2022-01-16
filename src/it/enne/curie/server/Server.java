@@ -28,12 +28,12 @@ public class Server {
 
     public void start() {
         new MenuEvent(logWriter, icon).setup();
-
         int portNumber = getPortNumber();
         try {
             ServerSocket serverSocket = new ServerSocket(portNumber);
 
-            while (true) {
+            boolean errore = false;
+            while (!errore) {
                 try (Socket clientSocket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
                     String inputLine = "";
@@ -49,7 +49,8 @@ public class Server {
                             new NotificationMenu(message).checkresult( IpClient);
                         }
                     }
-                } catch (ClassNotFoundException e) {
+                } catch (Exception e) {
+                    errore = true;
                     e.printStackTrace();
                 }
             }
@@ -60,11 +61,11 @@ public class Server {
 
     //leggere la porta dal file
     private int getPortNumber() {
+        boolean isCreated;
         // controlla esistenza
         try {
             // controllo cartella
             File cartella = new File(getFolderName());
-            boolean isCreated;
             if (!cartella.exists() || !cartella.isFile()) {
                 isCreated = cartella.mkdirs();
                 if (isCreated) {
@@ -75,7 +76,7 @@ public class Server {
             File file = new File(CONFIG);
             if (!file.exists()) {
                 isCreated = file.createNewFile();
-                if (isCreated) {
+                if (isCreated){
                     System.out.println("config created");
                 }
                 CustomConfigWriter(SERVER, DEFAULT_MAP, file);

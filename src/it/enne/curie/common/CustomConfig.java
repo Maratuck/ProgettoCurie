@@ -8,6 +8,7 @@ public class CustomConfig {
 
 
     public static void CustomConfigWriter(String[] SERVER, int[] Map, File file) throws IOException {
+        boolean isWritable;
 
         byte[] encodedip = Base64.getEncoder().encode(SERVER[0].getBytes(StandardCharsets.UTF_8));
         byte[] encodedport = Base64.getEncoder().encode(SERVER[1].getBytes(StandardCharsets.UTF_8));
@@ -17,21 +18,24 @@ public class CustomConfig {
 
         String[][] CONFIG = new String[][]{SERVER, MAP};
 
-        boolean isWritable = file.setWritable(true, true);
-        if (!isWritable) {
+        isWritable = file.setWritable(true, true);
+        if (isWritable) {
+            ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
+            writer.writeObject(CONFIG);
+            writer.close();
+            isWritable = file.setWritable(false, false);
+            if (isWritable) {
+                System.err.println("config modificabile");
+            }
+        } else {
             System.err.println("errore scrittura config");
-        }
-        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
-        writer.writeObject(CONFIG);
-        writer.close();
-        isWritable = file.setWritable(false, false);
-        if (!isWritable) {
-            System.err.println("config modificabile");
         }
     }
 
 
     public static void CustomConfigWriter(String[] SERVER, File file) throws IOException {
+        boolean isWritable;
+
         byte[] encodedip = Base64.getEncoder().encode(SERVER[0].getBytes(StandardCharsets.UTF_8));
         byte[] encodedport = Base64.getEncoder().encode(SERVER[1].getBytes(StandardCharsets.UTF_8));
 
@@ -40,16 +44,17 @@ public class CustomConfig {
 
         String[][] CONFIG = new String[][]{SERVER, NULL};
 
-        boolean isWritable = file.setWritable(true, true);
-        if (!isWritable) {
+        isWritable = file.setWritable(true, true);
+        if (isWritable) {
+            ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
+            writer.writeObject(CONFIG);
+            writer.close();
+            isWritable = file.setWritable(false, false);
+            if (isWritable) {
+                System.err.println("config modificabile");
+            }
+        } else {
             System.err.println("errore scrittura config");
-        }
-        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
-        writer.writeObject(CONFIG);
-        writer.close();
-        isWritable = file.setWritable(false, false);
-        if (!isWritable) {
-            System.err.println("config modificabile");
         }
     }
 
