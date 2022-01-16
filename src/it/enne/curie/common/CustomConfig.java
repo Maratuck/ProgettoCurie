@@ -17,11 +17,17 @@ public class CustomConfig {
 
         String[][] CONFIG = new String[][]{SERVER, MAP};
 
-        file.setWritable(true, true);
+        boolean isWritable = file.setWritable(true, true);
+        if (!isWritable) {
+            System.err.println("errore scrittura config");
+        }
         ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
         writer.writeObject(CONFIG);
         writer.close();
-        file.setWritable(false, false);
+        isWritable = file.setWritable(false, false);
+        if (!isWritable) {
+            System.err.println("config modificabile");
+        }
     }
 
 
@@ -34,11 +40,17 @@ public class CustomConfig {
 
         String[][] CONFIG = new String[][]{SERVER, NULL};
 
-        file.setWritable(true, true);
+        boolean isWritable = file.setWritable(true, true);
+        if (!isWritable) {
+            System.err.println("errore scrittura config");
+        }
         ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
         writer.writeObject(CONFIG);
         writer.close();
-        file.setWritable(false, false);
+        isWritable = file.setWritable(false, false);
+        if (!isWritable) {
+            System.err.println("config modificabile");
+        }
     }
 
     public static String[] CustomConfigServerReader(File file) throws IOException, ClassNotFoundException {

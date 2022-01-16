@@ -31,13 +31,20 @@ public class Client {
         try {
             // controllo cartella
             File cartella = new File(getFolderName());
+            boolean isCreated;
             if (!cartella.exists() || !cartella.isFile()) {
-                cartella.mkdirs();
+                isCreated = cartella.mkdirs();
+                if (isCreated) {
+                    System.out.println("folder created");
+                }
             }
             // controllo file config
             File file = new File(getConfigPath());
             if (!file.exists()) {
-                file.createNewFile();
+                isCreated = file.createNewFile();
+                if (isCreated) {
+                    System.out.println("config created");
+                }
                 CustomConfigWriter(DEFAULT_SERVER, file);
             }
         } catch (Exception e) {
@@ -58,6 +65,13 @@ public class Client {
         long mod = file.lastModified();
 
         while (true) {
+            try {
+                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+                //Thread.sleep(TimeUnit.MINUTES.toMillis(2));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             if (mod != file.lastModified()) {
                 mod = file.lastModified();
                 //data = System.currentTimeMillis();
@@ -66,13 +80,6 @@ public class Client {
                 Thread invio = new Invio(new Message(username), SERVER[0], Integer.parseInt(SERVER[1]));
                 invio.start();
                 System.out.println("modificato");
-            }
-
-            try {
-                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
-                //Thread.sleep(TimeUnit.MINUTES.toMillis(2));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }

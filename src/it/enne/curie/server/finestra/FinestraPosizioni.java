@@ -5,14 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 import static it.enne.curie.common.CuriePaths.*;
 import static it.enne.curie.common.CustomConfig.*;
 
 public class FinestraPosizioni extends JFrame implements ActionListener {
     
-    final int[] map;
+    int[] map = {5, 3};
     final String ipDat;
     final Quadrato[][] quadrati;
     final String icon = "src/it/enne/curie/resources/icona.png";
@@ -21,15 +20,17 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
 
     final ClasseWriter classeWriter;
 
-    public FinestraPosizioni(String ipDat) throws IOException, ClassNotFoundException {
+    public FinestraPosizioni(String ipDat) {
         //TODO: aggiungere lettura config
         super();
         setTitle("Mappa banchi");
         setIconImage(new ImageIcon(icon, "Icona").getImage());
         this.ipDat = ipDat;
-
-        map = CustomConfigMapReader(new File(config));
-        
+        try {
+            map = CustomConfigMapReader(new File(config));
+        } catch (Exception e) {
+            System.err.println("errore lettura config classe");
+        }
         classeWriter = new ClasseWriter(map[0], map[1], getFolderName()+SEP+"classe.dat");
         Container pannello = getContentPane();
         GridLayout layout = new GridLayout(map[0], map[1]);
