@@ -21,7 +21,6 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
     final ClasseWriter classeWriter;
 
     public FinestraPosizioni(String ipDat) {
-        //TODO: aggiungere lettura config
         super();
         setTitle("Mappa banchi");
         setIconImage(new ImageIcon(icon, "Icona").getImage());
@@ -52,7 +51,7 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
                     quadrati[x][y] = new Quadrato( x, y, classe[x][y]);
                     if (classe[x][y].equals(ipDat) ) { // se il valore è gia presente
                         presente = true;
-                        quadrati[x][y].setBackground(Color.RED);
+                        quadrati[x][y].setBackground(new Color(255, 50, 50));
                     }
                 }
                 quadrati[x][y].addActionListener( this);

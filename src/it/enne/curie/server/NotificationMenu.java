@@ -3,7 +3,6 @@ package it.enne.curie.server;
 import it.enne.curie.server.finestra.FinestraPosizioni;
 
 import javax.swing.*;
-import java.io.IOException;
 
 public class NotificationMenu extends JOptionPane {
 
@@ -21,7 +20,7 @@ public class NotificationMenu extends JOptionPane {
                messageOptions[1]);
     }
 
-    public void checkresult(String ipClient) throws IOException, ClassNotFoundException {
+    public void checkresult(String ipClient) {
             if (result == 0) {
                 new FinestraPosizioni(ipClient);
             }

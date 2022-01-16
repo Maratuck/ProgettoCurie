@@ -16,7 +16,7 @@ public class Server {
     private final LogWriter logWriter;
     private final String CONFIG;
 
-    private String[] SERVER = new String[]{"127.0.0.1","4444"};
+    private String[] SERVER = new String[]{"","4444"};
     private final int[] DEFAULT_MAP = new int[]{5,3};
 
     public Server() {
@@ -39,7 +39,6 @@ public class Server {
                     String inputLine = "";
 
                     while (inputLine != null) {
-                        //TODO: Modifica lettura da String a oggetto Message
                         inputLine = in.readLine();
                         if (inputLine != null) {
                             String IpClient = ((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress().toString().substring(1);

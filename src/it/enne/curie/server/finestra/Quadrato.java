@@ -12,8 +12,9 @@ public class Quadrato extends JButton {
 
     public Quadrato(int posX, int posY) {
         this.ipSalv = null;
-        this.setBackground(Color.BLUE);
+        this.setBackground(new Color(0,128,255));
         this.setPreferredSize(dimensione);
+        this.setUI(new StyledButtonUI());
         this.posY = posY;
         this.posX = posX;
         this.setText("");
@@ -21,8 +22,9 @@ public class Quadrato extends JButton {
 
     public Quadrato(int posX, int posY, String ipSalv) {
         this.ipSalv = ipSalv;
-        this.setBackground(Color.GREEN);
+        this.setBackground(new Color(150,255,50));
         this.setPreferredSize(dimensione);
+        this.setUI(new StyledButtonUI());
         this.posY = posY;
         this.posX = posX;
         this.setText(ipSalv);
