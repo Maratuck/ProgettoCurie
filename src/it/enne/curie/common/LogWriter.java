@@ -11,7 +11,6 @@ public class LogWriter {
     private int rowCont;
 
     public LogWriter(String logPath) {
-        boolean isCreated;
         log = new File(logPath);
 
         int tmpC, tmpF;

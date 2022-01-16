@@ -1,11 +1,9 @@
 package it.enne.curie.common;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static it.enne.curie.common.CustomConfig.CustomConfigWriter;
 
 
 public class CuriePaths {

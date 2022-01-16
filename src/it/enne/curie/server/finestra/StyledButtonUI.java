@@ -1,9 +1,7 @@
 package it.enne.curie.server.finestra;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 
