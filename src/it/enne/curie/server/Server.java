@@ -29,6 +29,8 @@ public class Server {
     public void start() {
         new MenuEvent(logWriter, icon).setup();
         int portNumber = getPortNumber();
+
+        System.out.println("Server avviato");
         try {
             ServerSocket serverSocket = new ServerSocket(portNumber);
 
@@ -56,32 +58,31 @@ public class Server {
         } catch (IOException e) {
             System.err.println("Errore nell'accettazione di un client: " + e.getMessage());
         }
+        System.out.println("Server terminato");
     }
 
     //leggere la porta dal file
     private int getPortNumber() {
-        boolean isCreated;
-        // controlla esistenza
+
+        int tmpC, tmpF;
         try {
             // controllo cartella
             File cartella = new File(getFolderName());
-            if (!cartella.exists() || !cartella.isFile()) {
-                isCreated = cartella.mkdirs();
-                if (isCreated) {
-                    System.out.println("folder created");
-                }
+            tmpC = checkFolder(cartella);
+            if (tmpC == 1) {
+                System.out.println("folder created : " + cartella);
             }
+
             // controllo file config
             File file = new File(CONFIG);
-            if (!file.exists()) {
-                isCreated = file.createNewFile();
-                if (isCreated){
-                    System.out.println("config created");
-                }
+            tmpF = checkFile(file);
+            if (tmpF == 1) {
+                System.out.println("file created : " + file);
                 CustomConfigWriter(SERVER, DEFAULT_MAP, file);
             }
+
         } catch (Exception e) {
-            System.err.println("errore creazione file");
+            System.err.println(e.getMessage());
         }
 
         try {

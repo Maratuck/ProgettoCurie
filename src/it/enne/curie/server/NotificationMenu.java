@@ -22,6 +22,8 @@ public class NotificationMenu extends JOptionPane {
 
     public void checkresult(String ipClient) {
             if (result == 0) {
+                //Integer pro = (int) (Math.random() * 10 + 1);
+                //new FinestraPosizioni(pro.toString());
                 new FinestraPosizioni(ipClient);
             }
     }
