@@ -24,7 +24,7 @@ public class CustomConfig {
             writer.writeObject(CONFIG);
             writer.close();
             isWritable = file.setWritable(false, false);
-            if (isWritable) {
+            if (!isWritable) {
                 System.err.println("config modificabile");
             }
         } else {
