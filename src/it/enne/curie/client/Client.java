@@ -1,5 +1,6 @@
 package it.enne.curie.client;
 
+import it.enne.curie.common.ConnectionParameters;
 import it.enne.curie.common.FileCreator;
 import it.enne.curie.common.LogWriter;
 import it.enne.curie.common.Message;
@@ -13,7 +14,7 @@ import static it.enne.curie.common.CustomExtension.readDecoded;
 public class Client {
 
     //TODO: Sostituire con l'IP del prof
-    private static final String[] DEFAULT_SERVER_PARAMETERS = new String[]{"127.0.0.1", "4444"};
+    private static final ConnectionParameters DEFAULT_SERVER_PARAMETERS = new ConnectionParameters("127.0.0.1", ConnectionParameters.DEFAULT_PORT);
     private static final String CHECK_FILE = HOME + "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
     private final String username;
@@ -26,13 +27,13 @@ public class Client {
     }
 
     public void start() {
-        File config = FileCreator.createAndWrite(getFolderName(), getConfigPath(), DEFAULT_SERVER_PARAMETERS);
+        File config = FileCreator.createAndWrite(getFolderName(), getConfigPath(), DEFAULT_SERVER_PARAMETERS.getParameters());
 
-        String[] serverParameters;
+        ConnectionParameters serverParameters;
 
         //caricamento config.mkt
         try {
-            serverParameters = readDecoded(config);
+            serverParameters = ConnectionParameters.fromArray(readDecoded(config));
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("errore lettura porte fallita");
@@ -47,14 +48,14 @@ public class Client {
                 mod = file.lastModified();
                 //data = System.currentTimeMillis();
                 String data = getCurrentData();
-                logWriter.write(HOME + ";" + username + ";" + data );
-                Thread invio = new Invio(new Message(username), serverParameters[0], Integer.parseInt(serverParameters[1]));
+                logWriter.write(HOME + ";" + username + ";" + data);
+                Thread invio = new Invio(new Message(username), serverParameters.getIp(), serverParameters.getPort());
                 invio.start();
                 System.out.println("modificato");
             }
 
             try {
-                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+                Thread.sleep(TimeUnit.SECONDS.toMillis(2)); //TODO: Debug temporaneo
                 //Thread.sleep(TimeUnit.MINUTES.toMillis(2));
             } catch (InterruptedException e) {
                 e.printStackTrace();

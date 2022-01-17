@@ -1,5 +1,6 @@
 package it.enne.curie.server;
 
+import it.enne.curie.common.ConnectionParameters;
 import it.enne.curie.common.FileCreator;
 import it.enne.curie.common.LogWriter;
 
@@ -20,7 +21,7 @@ public class Server {
     private final LogWriter logWriter;
     private File config;
 
-    private String[] SERVER = new String[]{"127.0.0.1", "4444"};
+    private ConnectionParameters parameters = new ConnectionParameters("127.0.0.1", ConnectionParameters.DEFAULT_PORT);
 
     public Server() {
         icon = "src/it/enne/curie/resources/icona.png";
@@ -60,17 +61,17 @@ public class Server {
     //leggere la porta dal file
     private int getPortNumber() {
         try {
-            SERVER = readDecoded(getConfig());
-            return Integer.parseInt(SERVER[1]);
+            parameters = ConnectionParameters.fromArray(readDecoded(getConfig()));
+            return parameters.getPort();
         } catch (IOException e) {
             e.printStackTrace();
-            return 4444;
+            return ConnectionParameters.DEFAULT_PORT;
         }
     }
 
     public File getConfig() {
         if (config == null) {
-            config = FileCreator.createAndWrite(getFolderName(), getConfigPath(), SERVER);
+            config = FileCreator.createAndWrite(getFolderName(), getConfigPath(), parameters.getParameters());
         }
 
         return config;
