@@ -1,19 +1,19 @@
 package it.enne.curie.client;
 
-import it.enne.curie.common.CuriePaths;
+import it.enne.curie.common.FileCreator;
 import it.enne.curie.common.LogWriter;
 import it.enne.curie.common.Message;
 
-import java.io.*;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import static it.enne.curie.common.CuriePaths.*;
-import static it.enne.curie.common.CustomExtension.*;
+import static it.enne.curie.common.CustomExtension.ReadDecode;
 
 public class Client {
 
     //TODO: Sostituire con l'IP del prof
-    private static final String[] DEFAULT_SERVER = new String[]{"127.0.0.1", "4444"};
+    private static final String[] DEFAULT_SERVER_PARAMETERS = new String[]{"127.0.0.1", "4444"};
     private static final String CHECK_FILE = HOME + "\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper";
 
     private final String username;
@@ -26,33 +26,17 @@ public class Client {
     }
 
     public void start() {
-        //TODO: @Ale config in common
+        File config = FileCreator.createAndWrite(getFolderName(), getConfigPath(), DEFAULT_SERVER_PARAMETERS);
 
-        // controlla esistenza
-        try {
-            // controllo cartella
-            File cartella = new File(getFolderName());
-            if (!cartella.exists() || !cartella.isFile()) {
-                cartella.mkdirs();
-            }
-            // controllo file config
-            File file = new File(getConfigPath());
-            if (!file.exists()) {
-                file.createNewFile();
-                EncodeWrite(DEFAULT_SERVER, file);
-            }
-        } catch (Exception e) {
-            System.err.println("errore creazione file");
-        }
-
-        String[] SERVER = DEFAULT_SERVER;
+        String[] serverParameters;
 
         //caricamento config.mkt
         try {
-            SERVER = ReadDecode(new File(getConfigPath()));
+            serverParameters = ReadDecode(config);
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("errore lettura porte fallita");
+            serverParameters = DEFAULT_SERVER_PARAMETERS;
         }
 
         File file = new File(CHECK_FILE);
@@ -64,7 +48,7 @@ public class Client {
                 //data = System.currentTimeMillis();
                 String data = getCurrentData();
                 logWriter.write(HOME + ";" + username + ";" + data );
-                Thread invio = new Invio(new Message(username), SERVER[0], Integer.parseInt(SERVER[1]));
+                Thread invio = new Invio(new Message(username), serverParameters[0], Integer.parseInt(serverParameters[1]));
                 invio.start();
                 System.out.println("modificato");
             }

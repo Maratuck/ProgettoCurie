@@ -3,7 +3,7 @@ package it.enne.curie.common;
 import java.awt.*;
 import java.io.*;
 
-import static it.enne.curie.common.CuriePaths.*;
+import static it.enne.curie.common.CuriePaths.getFolderName;
 
 public class LogWriter {
 
@@ -11,23 +11,7 @@ public class LogWriter {
     private int rowCont;
 
     public LogWriter(String logPath) {
-        log = new File(logPath);
-
-        try {
-            // cartella controllo
-            File cartella = new File(getFolderName());
-            if (!cartella.exists() || !cartella.isFile()) {
-                cartella.mkdirs();
-            }
-
-            // file log controllo
-            File file = new File(logPath);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            System.err.println("errore creazione file");
-        }
+        log = FileCreator.create(getFolderName(), logPath);
 
         //conta righe file log
         rowCont = 0;
