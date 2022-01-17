@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import static it.enne.curie.common.CuriePaths.*;
-import static it.enne.curie.common.CustomExtension.ReadDecode;
+import static it.enne.curie.common.CustomExtension.readDecoded;
 
 public class Client {
 
@@ -32,7 +32,7 @@ public class Client {
 
         //caricamento config.mkt
         try {
-            serverParameters = ReadDecode(config);
+            serverParameters = readDecoded(config);
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("errore lettura porte fallita");

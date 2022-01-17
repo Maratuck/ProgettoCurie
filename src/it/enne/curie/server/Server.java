@@ -12,7 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static it.enne.curie.common.CuriePaths.*;
-import static it.enne.curie.common.CustomExtension.ReadDecode;
+import static it.enne.curie.common.CustomExtension.readDecoded;
 
 public class Server {
 
@@ -60,7 +60,7 @@ public class Server {
     //leggere la porta dal file
     private int getPortNumber() {
         try {
-            SERVER = ReadDecode(getConfig());
+            SERVER = readDecoded(getConfig());
             return Integer.parseInt(SERVER[1]);
         } catch (IOException e) {
             e.printStackTrace();

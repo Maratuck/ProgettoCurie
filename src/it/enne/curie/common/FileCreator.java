@@ -3,7 +3,7 @@ package it.enne.curie.common;
 import java.io.File;
 import java.io.IOException;
 
-import static it.enne.curie.common.CustomExtension.EncodeWrite;
+import static it.enne.curie.common.CustomExtension.writeEncoded;
 
 public class FileCreator {
 
@@ -33,7 +33,7 @@ public class FileCreator {
 
             // Scrittura file
             try {
-                EncodeWrite(rows, file);
+                writeEncoded(rows, file);
             } catch (IOException e) {
                 System.err.println("Errore nella scrittura sul file " + configPath);
                 e.printStackTrace();
