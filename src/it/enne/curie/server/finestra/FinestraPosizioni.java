@@ -51,7 +51,9 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
                     quadrati[x][y] = new Quadrato( x, y, classe[x][y]);
                     if (classe[x][y].equals(ipDat) ) { // se il valore è gia presente
                         presente = true;
-                        quadrati[x][y].setBackground(new Color(255, 50, 50));
+                        quadrati[x][y].setForeground(new Color(128,0,0));
+                        quadrati[x][y].setFont(new Font("Serif", Font.BOLD, 25));
+                        quadrati[x][y].setBackground(new Color(230, 60, 60));
                     }
                 }
                 quadrati[x][y].addActionListener( this);

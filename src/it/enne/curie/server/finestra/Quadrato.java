@@ -22,12 +22,14 @@ public class Quadrato extends JButton {
 
     public Quadrato(int posX, int posY, String ipSalv) {
         this.ipSalv = ipSalv;
-        this.setBackground(new Color(150,255,50));
+        this.setBackground(new Color(80,230,80));
         this.setPreferredSize(dimensione);
         this.setUI(new StyledButtonUI());
         this.posY = posY;
         this.posX = posX;
         this.setText(ipSalv);
+        this.setForeground(new Color(0,128,0));
+        this.setFont(new Font("Serif", Font.BOLD, 25));
     }
 
     public int getPosX() {
