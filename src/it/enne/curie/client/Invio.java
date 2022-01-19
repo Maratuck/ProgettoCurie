@@ -32,6 +32,8 @@ public class Invio extends Thread {
     public void run() {
         if (!invia()) {
             System.out.println("non inviato");
+        } else {
+            System.out.println("inviato");
         }
     }
 

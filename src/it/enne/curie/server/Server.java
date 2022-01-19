@@ -32,30 +32,36 @@ public class Server {
         new MenuEvent(logWriter, icon).setup();
 
         int portNumber = getPortNumber();
+
+        System.out.println("Server avviato");
         try {
             ServerSocket serverSocket = new ServerSocket(portNumber);
 
-            while (true) {
+            boolean errore = false;
+            while (!errore) {
                 try (Socket clientSocket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
                     String inputLine = "";
 
                     while (inputLine != null) {
-                        //TODO: Modifica lettura da String a oggetto Message
                         inputLine = in.readLine();
                         if (inputLine != null) {
                             String IpClient = ((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress().toString().substring(1);
                             String data = getCurrentData();
                             String message = inputLine + ",  " + IpClient + ",  " + data;
                             logWriter.write(message);
-                            new NotificationMenu(message).checkresult();
+                            new NotificationMenu(message).checkresult( IpClient);
                         }
                     }
+                } catch (Exception e) {
+                    errore = true;
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
             System.err.println("Errore nell'accettazione di un client: " + e.getMessage());
         }
+        System.out.println("Server terminato");
     }
 
     //leggere la porta dal file

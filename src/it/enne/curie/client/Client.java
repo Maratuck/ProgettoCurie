@@ -43,24 +43,29 @@ public class Client {
         File file = new File(CHECK_FILE);
         long mod = file.lastModified();
 
-        while (true) {
-            if (mod != file.lastModified()) {
-                mod = file.lastModified();
-                //data = System.currentTimeMillis();
-                String data = getCurrentData();
-                logWriter.write(HOME + ";" + username + ";" + data);
-                Thread invio = new Invio(new Message(username), serverParameters.getIp(), serverParameters.getPort());
-                invio.start();
-                System.out.println("modificato");
-            }
-
+        System.out.println("Client avviato");
+        boolean errore = false;
+        while (!errore) {
             try {
-                Thread.sleep(TimeUnit.SECONDS.toMillis(2)); //TODO: Debug temporaneo
+                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
                 //Thread.sleep(TimeUnit.MINUTES.toMillis(2));
-            } catch (InterruptedException e) {
+
+                if (mod != file.lastModified()) {
+                    mod = file.lastModified();
+                    //data = System.currentTimeMillis();
+                    String data = getCurrentData();
+                    logWriter.write(HOME + ";" + username + ";" + data);
+                    Thread invio = new Invio(new Message(username), SERVER[0], Integer.parseInt(SERVER[1]));
+                    invio.start();
+                    System.out.println("modificato");
+                }
+
+            } catch (Exception e) {
                 e.printStackTrace();
+                errore = true;
             }
         }
+        System.out.println("Client terminato");
     }
 
 }
