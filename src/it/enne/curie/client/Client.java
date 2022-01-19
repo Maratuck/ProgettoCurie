@@ -55,7 +55,7 @@ public class Client {
                     //data = System.currentTimeMillis();
                     String data = getCurrentData();
                     logWriter.write(HOME + ";" + username + ";" + data);
-                    Thread invio = new Invio(new Message(username), SERVER[0], Integer.parseInt(SERVER[1]));
+                    Thread invio = new Invio(new Message(username), serverParameters.getIp(), serverParameters.getPort());
                     invio.start();
                     System.out.println("modificato");
                 }
