@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import static it.enne.curie.common.CuriePaths.*;
-import static it.enne.curie.common.CustomConfig.*;
+import static it.enne.curie.common.CustomConfig.CustomConfigMapReader;
 
 public class FinestraPosizioni extends JFrame implements ActionListener {
     
