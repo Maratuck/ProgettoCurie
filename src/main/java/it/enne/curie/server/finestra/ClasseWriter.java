@@ -2,7 +2,7 @@ package it.enne.curie.server.finestra;
 
 import java.io.*;
 
-import static it.enne.curie.common.CuriePaths.*;
+import static it.enne.curie.common.CuriePaths.getFolderName;
 
 public class ClasseWriter {
 

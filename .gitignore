@@ -6,3 +6,5 @@ manifest.mf
 ProgettoCurie.iml
 .idea
 out
+target/
+*.iml

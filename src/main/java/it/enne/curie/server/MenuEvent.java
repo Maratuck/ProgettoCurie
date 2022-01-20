@@ -1,18 +1,12 @@
 package it.enne.curie.server;
 
-import it.enne.curie.common.LogWriter;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class MenuEvent extends TrayIcon {
 
-    private final LogWriter logWriter;
-
-    public MenuEvent(LogWriter logWriter, String icon) {
-        super(new ImageIcon(icon,"tray icon").getImage(), "Controllo Sfondo");
-
-        this.logWriter = logWriter;
+    public MenuEvent(String icon) {
+        super(new ImageIcon(icon, "tray icon").getImage(), "Controllo Sfondo");
     }
 
     public void setup() {
@@ -28,7 +22,9 @@ public class MenuEvent extends TrayIcon {
         MenuItem readLogItem = new MenuItem("Info");
 
         //action
-        readLogItem.addActionListener(e -> logWriter.openFile());
+        readLogItem.addActionListener(e -> {
+            //TODO: richiesta DB
+        });
 
         //Add components to pop-up menu
         popup.add(readLogItem);
