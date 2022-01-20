@@ -1,4 +1,4 @@
-package it.enne.curie.client;
+package it.enne.curie.client.user;
 
 import it.enne.curie.common.ConnectionParameters;
 import it.enne.curie.common.FileCreator;

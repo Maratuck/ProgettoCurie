@@ -1,4 +1,4 @@
-package it.enne.curie.client;
+package it.enne.curie.client.user;
 
 public class Main {
 
