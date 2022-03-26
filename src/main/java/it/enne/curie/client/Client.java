@@ -3,7 +3,6 @@ package it.enne.curie.client;
 import it.enne.curie.common.ConnectionParameters;
 import it.enne.curie.common.FileCreator;
 import it.enne.curie.common.LogWriter;
-import it.enne.curie.common.Message;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

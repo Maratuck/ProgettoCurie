@@ -23,8 +23,8 @@ public class InstallerClient {
 
     public static void main(String[] args) {
 
-        String pathJarSource = "./conf.txt";
-        String pathJarDestination = CuriePaths.getFolderName() + CuriePaths.SEP + "conf.txt";
+        String pathJarSource = "./config.mkt";
+        String pathJarDestination = CuriePaths.getFolderName() + CuriePaths.SEP + "config.mkt";
 
         System.out.println("Avvio installazione client");
 

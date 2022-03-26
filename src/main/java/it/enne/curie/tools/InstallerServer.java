@@ -23,8 +23,8 @@ public class InstallerServer {
 
     public static void main(String[] args) {
 
-        String pathJarSource = "./conf.txt";
-        String pathJarDestination = CuriePaths.getFolderName() + CuriePaths.SEP + "conf.txt";
+        String pathJarSource = "./config.mkt";
+        String pathJarDestination = CuriePaths.getFolderName() + CuriePaths.SEP + "config.mkt";
 
         System.out.println("Avvio installazione client");
 
@@ -35,8 +35,8 @@ public class InstallerServer {
             return;
         }
 
-        String pathConfSource = "./Programma.jar";
-        String pathConfDestination = "C:/Users/Default/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/Programma.jar";
+        String pathConfSource = "./Server.jar";
+        String pathConfDestination = "C:/Users/Default/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/Server.jar";
 
         if ( copia( pathConfSource, pathConfDestination)) {
             System.out.println("copiato " + pathConfSource + " in " + pathConfDestination);

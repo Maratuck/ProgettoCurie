@@ -1,4 +1,4 @@
-package it.enne.curie.common;
+package it.enne.curie.client;
 
 public class Message {
 

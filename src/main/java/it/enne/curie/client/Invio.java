@@ -1,7 +1,5 @@
 package it.enne.curie.client;
 
-import it.enne.curie.common.Message;
-
 import java.io.PrintWriter;
 import java.net.Socket;
 
