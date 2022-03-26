@@ -3,6 +3,7 @@ package it.enne.curie.common;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Vector;
 
 public class CustomExtension {
 
@@ -10,15 +11,17 @@ public class CustomExtension {
     }
 
     public static void writeEncoded(String[] serverParameters, File file) throws IOException {
-        byte[] encodedIP = Base64.getEncoder().encode(serverParameters[0].getBytes(StandardCharsets.UTF_8));
-        byte[] encodedPort = Base64.getEncoder().encode(serverParameters[1].getBytes(StandardCharsets.UTF_8));
 
         file.setWritable(true, true);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(new String(encodedIP));
-            writer.newLine();
-            writer.write(new String(encodedPort));
+
+            for (int i=0; i<serverParameters.length; i++) {
+                // TODO : togliere commento versione finita
+                //writer.write( new String( Base64.getEncoder().encode(serverParameters[i].getBytes(StandardCharsets.UTF_8)) ) );
+                writer.write(serverParameters[i]);
+                writer.newLine();
+            }
         }
 
         file.setWritable(false, false);
@@ -26,10 +29,20 @@ public class CustomExtension {
 
     public static String[] readDecoded(File file) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            byte[] ip = Base64.getDecoder().decode(reader.readLine());
-            byte[] port = Base64.getDecoder().decode(reader.readLine());
+            Vector<String> vet = new Vector();
+            String riga = "";
+            while ( (riga = reader.readLine())!=null ) {
+                // TODO : togliere commento versione finita
+                //riga = new String( Base64.getDecoder().decode(reader.readLine()) );
+                vet.add(riga);
+            }
 
-            return new String[]{new String(ip), new String(port)};
+            String[] out = new String[vet.size()];
+            for (int i=0; i<vet.size(); i++) {
+                out[i] = vet.get(i);
+            }
+
+            return out;
         }
     }
 }

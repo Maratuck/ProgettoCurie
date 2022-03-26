@@ -77,7 +77,7 @@ public class Server {
 
     public File getConfig() {
         if (config == null) {
-            config = FileCreator.createAndWrite(getFolderName(), getConfigPath(), parameters.getParameters());
+            config = FileCreator.createAndWrite(getFolderName(), getConfigPath(), new String[]{parameters.getIp(), Integer.toString(parameters.getPort()), "5", "8"});
         }
 
         return config;

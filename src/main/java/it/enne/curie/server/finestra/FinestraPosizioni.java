@@ -1,5 +1,8 @@
 package it.enne.curie.server.finestra;
 
+import it.enne.curie.common.CuriePaths;
+import it.enne.curie.common.CustomExtension;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import static it.enne.curie.common.CuriePaths.*;
-import static it.enne.curie.common.CustomConfig.CustomConfigMapReader;
 
 public class FinestraPosizioni extends JFrame implements ActionListener {
     
@@ -26,7 +28,8 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
         setIconImage(new ImageIcon(icon, "Icona").getImage());
         this.ipDat = ipDat;
         try {
-            map = CustomConfigMapReader(new File(config));
+            map[0] = Integer.parseInt( CustomExtension.readDecoded( new File(CuriePaths.getConfigPath()))[2] );
+            map[1] = Integer.parseInt( CustomExtension.readDecoded( new File(CuriePaths.getConfigPath()))[3] );
         } catch (Exception e) {
             System.err.println("errore lettura config classe");
         }
