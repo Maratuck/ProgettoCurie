@@ -9,6 +9,7 @@ import java.util.Calendar;
 public class CuriePaths {
 
     public static final String HOME = System.getProperty("user.home");
+    public static final String DISCO = "C:";
     public static final String SEP = File.separator;
     public static final String FOLDER_NAME = "BAA";
     public static final String LOG_NAME = "cb.log";
@@ -20,14 +21,14 @@ public class CuriePaths {
     }
 
     public static String getLogPath() {
-        return HOME + SEP + FOLDER_NAME + SEP + LOG_NAME;
+        return DISCO + SEP + FOLDER_NAME + SEP + LOG_NAME;
     }
 
     public static String getConfigPath() {
-        return HOME + SEP + FOLDER_NAME + SEP + CONFIG;
+        return DISCO + SEP + FOLDER_NAME + SEP + CONFIG;
     }
 
-    public static String getFolderName() { return HOME + SEP + FOLDER_NAME; }
+    public static String getFolderName() { return DISCO + SEP + FOLDER_NAME; }
 
     public static String getCurrentData() { return formatoData.format( Calendar.getInstance().getTime() ); }
 
