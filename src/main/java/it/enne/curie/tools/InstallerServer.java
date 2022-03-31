@@ -2,6 +2,7 @@ package it.enne.curie.tools;
 
 import it.enne.curie.common.CuriePaths;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +15,7 @@ public class InstallerServer {
         try {
             Files.copy( Paths.get(sorgente), Paths.get(destinazione));
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return false;
         }
 
@@ -36,7 +37,7 @@ public class InstallerServer {
         }
 
         String pathConfSource = "./Server.jar";
-        String pathConfDestination = "C:/Users/Default/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/Server.jar";
+        String pathConfDestination = "C:/ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/Server.jar";
 
         if ( copia( pathConfSource, pathConfDestination)) {
             System.out.println("copiato " + pathConfSource + " in " + pathConfDestination);
@@ -45,7 +46,20 @@ public class InstallerServer {
             return;
         }
 
+        /*
+        String pathIcoSource= "./icona.png";
+        String pathIcoDestination = "C:/ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/icona.png";
+
+        if ( copia( pathIcoSource, pathIcoDestination)) {
+            System.out.println("copiato " + pathIcoSource + " in " + pathIcoDestination);
+        } else {
+            System.err.println("fallita copiatura " + pathIcoSource + " in " + pathIcoDestination);
+            return;
+        }
+         */
+
         System.out.println("Installazione completata");
+        JOptionPane.showMessageDialog(null, "Installazione completata");
     }
 
 }

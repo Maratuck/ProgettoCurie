@@ -4,6 +4,7 @@ import it.enne.curie.common.ConnectionParameters;
 import it.enne.curie.common.CuriePaths;
 import it.enne.curie.common.CustomExtension;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -25,7 +26,9 @@ public class InviaMesssaggio {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
             out.println(System.getProperty("user.name"));
             System.out.println("inviato");
+            JOptionPane.showMessageDialog(null, "inviato");
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "inviato");
             e.printStackTrace();
         }
 

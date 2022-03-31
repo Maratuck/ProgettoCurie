@@ -24,7 +24,7 @@ public class Server {
     private ConnectionParameters parameters = new ConnectionParameters("127.0.0.1", ConnectionParameters.DEFAULT_PORT);
 
     public Server() {
-        icon = "src/it/enne/curie/resources/icona.png";
+        icon = "./icona.png";
         logWriter = new LogWriter(getLogPath() + "s"); // solo per i test per fare in modo che non scriva nello stesso file di log del client
     }
 

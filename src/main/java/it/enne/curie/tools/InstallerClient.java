@@ -2,6 +2,7 @@ package it.enne.curie.tools;
 
 import it.enne.curie.common.CuriePaths;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +15,7 @@ public class InstallerClient {
         try {
             Files.copy( Paths.get(sorgente), Paths.get(destinazione));
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return false;
         }
 
@@ -35,8 +36,8 @@ public class InstallerClient {
             return;
         }
 
-        String pathConfSource = "./Programma.jar";
-        String pathConfDestination = "C:/Users/Default/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/Programma.jar";
+        String pathConfSource = "./Client.jar";
+        String pathConfDestination = "C:/ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/Client.jar";
 
         if ( copia( pathConfSource, pathConfDestination)) {
             System.out.println("copiato " + pathConfSource + " in " + pathConfDestination);
@@ -46,6 +47,7 @@ public class InstallerClient {
         }
 
         System.out.println("Installazione completata");
+        JOptionPane.showMessageDialog(null, "Installazione completata");
     }
 
 }
