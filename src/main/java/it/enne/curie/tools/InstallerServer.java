@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class InstallerServer {
 
@@ -33,7 +34,6 @@ public class InstallerServer {
             System.out.println("copiato " + pathJarSource + " in " + pathJarDestination);
         } else {
             System.err.println("fallita copiatura " + pathJarSource + " in " + pathJarDestination);
-            return;
         }
 
         String pathConfSource = "./Server.jar";
@@ -43,7 +43,6 @@ public class InstallerServer {
             System.out.println("copiato " + pathConfSource + " in " + pathConfDestination);
         } else {
             System.err.println("fallita copiatura " + pathConfSource + " in " + pathConfDestination);
-            return;
         }
 
         /*
@@ -60,6 +59,8 @@ public class InstallerServer {
 
         System.out.println("Installazione completata");
         JOptionPane.showMessageDialog(null, "Installazione completata");
+
+        new Scanner(System.in).next();
     }
 
 }

@@ -48,6 +48,7 @@ public class CreaFileConfig {
         }
         System.out.println("file creato e scritto");
 
+        new Scanner(System.in).next();
     }
 
 }

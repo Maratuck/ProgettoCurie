@@ -28,7 +28,7 @@ public class InviaMesssaggio {
             System.out.println("inviato");
             JOptionPane.showMessageDialog(null, "inviato");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "inviato");
+            JOptionPane.showMessageDialog(null, "non inviato");
             e.printStackTrace();
         }
 
