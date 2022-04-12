@@ -26,6 +26,9 @@ public class SchermataInstallazioneClient extends JFrame{
 
         InstallaButton.addActionListener( e -> {
 
+            File fold = new File(CuriePaths.getConfigPath());
+            if (!fold.exists()) fold.mkdirs();
+
             statoTextField.setText("inizio copiatura file config");
 
             if ( !copia( CuriePaths.CONFIG, textFieldPOConfig.getText()) ) {
@@ -56,7 +59,6 @@ public class SchermataInstallazioneClient extends JFrame{
     public static boolean copia(String sorgente, String destinazione) {
 
         File source = new File(sorgente);
-        if (source.exists()) source.delete();
 
         File destination = new File(destinazione);
         if (destination.exists()) destination.delete();

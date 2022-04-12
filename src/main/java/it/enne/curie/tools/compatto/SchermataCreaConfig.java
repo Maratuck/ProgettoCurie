@@ -5,6 +5,8 @@ import it.enne.curie.common.CustomExtension;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class SchermataCreaConfig extends JFrame{
 
@@ -16,6 +18,15 @@ public class SchermataCreaConfig extends JFrame{
     private JButton creaConfigButton;
 
     public SchermataCreaConfig() {
+
+
+        try {
+            textFieldIP.setText(InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        textFieldPORT.setText("45674");
 
         creaConfigButton.addActionListener( e -> {
             File file = new File("./config.mkt");
