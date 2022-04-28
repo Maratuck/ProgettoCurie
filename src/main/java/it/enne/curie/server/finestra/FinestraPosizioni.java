@@ -1,5 +1,6 @@
 package it.enne.curie.server.finestra;
 
+import it.enne.curie.common.ClasseWriterFileClasse;
 import it.enne.curie.common.CuriePaths;
 import it.enne.curie.common.CustomExtension;
 
@@ -20,7 +21,7 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
     final String config = getConfigPath() + "s"; // solo per i test per fare in modo che non scriva nello stesso file di config del client
     boolean presente = false; // variabile per sapere se è gia presente l'ip
 
-    final ClasseWriter classeWriter;
+    final ClasseWriterFileClasse classeWriter;
 
     public FinestraPosizioni(String ipDat) {
         super();
@@ -33,7 +34,7 @@ public class FinestraPosizioni extends JFrame implements ActionListener {
         } catch (Exception e) {
             System.err.println("errore lettura config classe");
         }
-        classeWriter = new ClasseWriter(map[0], map[1], getFolderName()+SEP+"classe.dat");
+        classeWriter = new ClasseWriterFileClasse(map[0], map[1], getFolderName()+SEP+"classe.dat");
         Container pannello = getContentPane();
         GridLayout layout = new GridLayout(map[0], map[1]);
 

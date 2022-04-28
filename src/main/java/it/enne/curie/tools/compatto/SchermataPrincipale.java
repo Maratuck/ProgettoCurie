@@ -19,6 +19,7 @@ public class SchermataPrincipale extends JFrame{
     private JButton CREACONFIGButton;
     private JPanel pannelloPrincipale;
     private JButton INVIAMESSAGIOButton;
+    private JButton CONFIGURAFILECLASSIButton;
 
     public SchermataPrincipale() {
         super();
@@ -60,6 +61,9 @@ public class SchermataPrincipale extends JFrame{
             }
         });
 
+        CONFIGURAFILECLASSIButton.addActionListener(e -> {
+            new ModificaFileClasse();
+        });
 
 
         setContentPane(pannelloPrincipale);

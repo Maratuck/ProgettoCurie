@@ -1,16 +1,48 @@
-package it.enne.curie.server.finestra;
+package it.enne.curie.common;
 
 import java.io.*;
 
 import static it.enne.curie.common.CuriePaths.*;
 
-public class ClasseWriter {
+public class ClasseWriterFileClasse {
 
     final int righe;
     final int colonne;
     final File file;
 
-    public ClasseWriter(int colonne, int righe, String classePath) {
+    public static int getNumRigefromFile(String classePath) {
+
+        String[][] val;
+
+        try ( ObjectInputStream reader = new ObjectInputStream(new FileInputStream (classePath))) {
+
+            val = (String[][]) reader.readObject();
+            return val[0].length;
+
+        } catch (Exception e) {
+            System.err.println("errore lettura file classe");
+        }
+
+        return -1;
+    }
+
+    public static int getNumColonnefromFile(String classePath) {
+
+        String[][] val;
+
+        try ( ObjectInputStream reader = new ObjectInputStream(new FileInputStream (classePath))) {
+
+            val = (String[][]) reader.readObject();
+            return val.length;
+
+        } catch (Exception e) {
+            System.err.println("errore lettura file classe");
+        }
+
+        return -1;
+    }
+
+    public ClasseWriterFileClasse(int colonne, int righe, String classePath) {
         this.righe = righe;
         this.colonne = colonne;
         this.file = new File(classePath);
